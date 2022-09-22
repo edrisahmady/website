@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+body{
+    background-color: #39384F;
+}
+h1{
+    font-weight: bold;
+    font-size: 48pt;
+    text-decoration: underline;
+    color: #D3AF37
+
+}

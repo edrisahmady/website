@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+body{
+    background-color: #39384F;
+}
+
+a{
+    text-decoration: none;
+    color: #D3AF37;
+}
+
+
+#heading1{
+    display: inline-block;
+    position: relative;
+    font-size: 1.6em;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #D3AF37;
+    text-decoration: overline;
+    padding-left: 8em;
+    padding-right: 1em;
+
+}
+#heading2{
+    display: inline-block;
+    position: relative;
+    font-size: 1.6em;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #D3AF37;
+    text-decoration: overline;
+    padding-left: 8em;
+    padding-right: 1em;
+}
+#heading3{
+    display: inline-block;
+    position: relative;
+    font-size: 1.6em;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #D3AF37;
+    text-decoration: overline;
+    padding-left: 8em;
+    padding-right: 1em;
+}
+#heading4{
+    display: inline-block;
+    position: relative;
+    font-size: 1.6em;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #D3AF37;
+    text-decoration: overline;
+    padding-left: 8em;
+    padding-right: 1em;
+}
+#heading5{
+    display: inline-block;
+    position: relative;
+    font-size: 1.6em;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #D3AF37;
+    text-decoration: overline;
+    padding-left: 8em;
+    padding-right: 1em;
+}
+#firstname{
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: sans-serif;
+    font-weight: bolder;
+    letter-spacing: .125em;
+    font-size: 7em;
+    color: #D3AF37;
+    padding-top: .5em;
+    padding-left: .5em;
+    animation: firstname 2s ease-in;
+}
+@keyframes firstname {
+    0%{
+        transform: translateX(-500px);
+    }
+    100%{
+        transform: translateX(8px);
+    }
+
+}
+
+#lastname{
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: sans-serif;
+    font-weight: bolder;
+    letter-spacing: .125em;
+    font-size: 7em;
+    color: #D3AF37;
+    padding-top: .15em;
+    padding-left: 13em;
+    writing-mode: vertical-rl;
+    animation: lastname 2s ease-in;
+}
+@keyframes lastname {
+    0%{
+        transform: translateX(300px);
+    }
+    100%{
+        transform: translateX(8px);
+    }
+
+}
+
+
+
+img{
+    display: block;
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    left:34%;
+    bottom: 0%;
+    width: 35%;
+    height: 90%;
+}
