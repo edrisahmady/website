@@ -21,8 +21,12 @@ a{
     font-weight: lighter;
     color: #D3AF37;
     text-decoration: overline;
-    margin-left: 7vw;
-    margin-right: 7vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+    margin-right: auto;
+    padding-left: 13vw;
+    padding-right: auto;
 }
 
 
@@ -30,17 +34,17 @@ a{
 #firstname{
     display: block;
     position: relative;
-    margin-left: auto;
+    margin-left: 3vw;
     margin-right: auto;
-    margin-top: auto;
+    margin-top: 3vh;
     margin-bottom: auto;
     font-family: sans-serif;
     font-weight: bolder;
     letter-spacing: .125em;
     font-size: 7em;
     color: #D3AF37;
-    padding-top: .5vw;
-    padding-left: .5vw;
+    padding-top: 0vh;
+    padding-left: 0vw;
     animation: firstname 2s ease-in;
 }
 @keyframes firstname {
@@ -56,17 +60,17 @@ a{
 #lastname{
     display: block;
     position: relative;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: auto;
-    margin-bottom: auto;
+    margin-bottom: 3vh;
+    margin-left: auto;
+    margin-right: 3vw;
     font-family: sans-serif;
     font-weight: bolder;
     letter-spacing: .125em;
     font-size: 7em;
     color: #D3AF37;
-    padding-top: .15em;
-    padding-left: 13em;
+    padding-top: 0vh;
+    padding-left: 0vw;
     writing-mode: vertical-rl;
     animation: lastname 2s ease-in;
 }
