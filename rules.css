@@ -2,6 +2,9 @@
 
 body{
     background-color: #39384F;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
 }
 
 a{
@@ -10,7 +13,7 @@ a{
 }
 
 
-#heading1{
+.heading{
     display: inline-block;
     position: relative;
     font-size: 1.6em;
@@ -18,54 +21,12 @@ a{
     font-weight: lighter;
     color: #D3AF37;
     text-decoration: overline;
-    padding-left: 8em;
-    padding-right: 1em;
+    margin-left: 7vw;
+    margin-right: 7vw;
+}
 
-}
-#heading2{
-    display: inline-block;
-    position: relative;
-    font-size: 1.6em;
-    font-family: sans-serif;
-    font-weight: lighter;
-    color: #D3AF37;
-    text-decoration: overline;
-    padding-left: 8em;
-    padding-right: 1em;
-}
-#heading3{
-    display: inline-block;
-    position: relative;
-    font-size: 1.6em;
-    font-family: sans-serif;
-    font-weight: lighter;
-    color: #D3AF37;
-    text-decoration: overline;
-    padding-left: 8em;
-    padding-right: 1em;
-}
-#heading4{
-    display: inline-block;
-    position: relative;
-    font-size: 1.6em;
-    font-family: sans-serif;
-    font-weight: lighter;
-    color: #D3AF37;
-    text-decoration: overline;
-    padding-left: 8em;
-    padding-right: 1em;
-}
-#heading5{
-    display: inline-block;
-    position: relative;
-    font-size: 1.6em;
-    font-family: sans-serif;
-    font-weight: lighter;
-    color: #D3AF37;
-    text-decoration: overline;
-    padding-left: 8em;
-    padding-right: 1em;
-}
+
+
 #firstname{
     display: block;
     position: relative;
