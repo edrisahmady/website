@@ -39,8 +39,8 @@ a{
     letter-spacing: .125em;
     font-size: 7em;
     color: #D3AF37;
-    padding-top: .5em;
-    padding-left: .5em;
+    padding-top: .5vw;
+    padding-left: .5vw;
     animation: firstname 2s ease-in;
 }
 @keyframes firstname {
