@@ -99,4 +99,12 @@ img{
     bottom: 0%;
     width: 35%;
     height: 60%;
+    animation: mutley 2s ease-in;
 }
+@keyframes mutley {
+    0%{
+        transform: translateY(550px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
