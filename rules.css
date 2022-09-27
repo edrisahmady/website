@@ -88,8 +88,6 @@ a{
 
 }
 
-
-
 img{
     display: block;
     position: fixed;
@@ -98,5 +96,5 @@ img{
     left:33%;
     bottom: 0%;
     width: 35%;
-    height: 90%;
+    height: 60%;
 }
