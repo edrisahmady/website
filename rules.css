@@ -31,6 +31,51 @@ a{
     padding-right: auto;
 }
 
+.dropbtn {
+  background-color: #39384F;
+  color: #D3AF37;
+  font-family: 'Maven Pro', sans-serif;
+  font-weight: lighter;
+  padding: 16px;
+  margin-left: 13vw;
+  font-size: 1.4em;
+  text-decoration: overline;
+  border: none;
+}
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  font-family: 'Maven Pro', sans-serif;
+  font-weight: lighter;
+  background-color: #39384F;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: #D3AF37;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: grey;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block; margin-left: 13vw;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: grey;}
 
 
 #firstname{

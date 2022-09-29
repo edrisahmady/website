@@ -29,7 +29,8 @@ a{
     padding-right: auto;
 }
 .title{
-    position: fixed;
+    display: flow-root;
+    position: absolute;
     margin-left: 5vw;
     margin-top: 12vh;
     font-family: 'Maven Pro', sans-serif;
