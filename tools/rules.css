@@ -35,7 +35,6 @@ a{
   font-family: 'Maven Pro', sans-serif;
   font-weight: lighter;
   padding: 16px;
-  margin-left: 13vw;
   font-size: 1.4em;
   text-decoration: overline;
   border: none;
@@ -44,6 +43,7 @@ a{
 .dropdown {
   position: relative;
   display: inline-block;
+  margin-left: 13vw;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -70,7 +70,7 @@ a{
 .dropdown-content a:hover {background-color: grey;}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block; margin-left: 13vw;}
+.dropdown:hover .dropdown-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: grey;}
