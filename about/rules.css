@@ -9,9 +9,10 @@ body{
     width: 100vw;
     height: 100vh;
 }
-img{
+.social_icons{
     display: inline-block;
-    margin-top: 40vh;
+    position: relative;
+    margin-top: 5vh;
     margin-left: .25vw;
     margin-right: .25vw;
     length:32px;
@@ -85,9 +86,10 @@ a{
 
 .title{
     display: flow-root;
-    position: absolute;
+    position: relative;
     margin-left: 5vw;
-    margin-top: 12vh;
+    margin-top: 5vh;
+    margin-bottom: 0vh;
     font-family: 'Maven Pro', sans-serif;
     font-weight: bold;
     font-size: 48pt;
@@ -96,9 +98,9 @@ a{
 }
 .bio{
     display: flow-root;
-    position: absolute;
+    position: relative;
     margin-left: 5vw;
-    margin-top: 14vh;
+    margin-top: 1vh;
     padding-right: 20vw;
     font-family: 'Maven Pro', sans-serif;
     font-weight: normal;
