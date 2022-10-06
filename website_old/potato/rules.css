@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #d6b0d0 ;
+  }
+#body{position: absolute;
+      top: 250px;
+      left: 650px;
+      z-index: 1;
+      }
+
+#shoes{position: absolute;
+      top: 625px;
+      left: 625px;
+      z-index: 2;
+      }
+#eyes{position: absolute;
+      top: 275px;
+      left: 645px;
+      z-index: 3;
+      }
+
+#facial_hair{position: absolute;
+      top: 475px;
+      left: 600px;
+      z-index: 6;
+      }
+
+#hat{position: absolute;
+      top: 115px;
+      left: 650px;
+      z-index: 5;
+      }
+
+#mouth{position: absolute;
+      top: 525px;
+      left: 700px;
+      z-index: 4;
+      }
+
+#nose{position: absolute;
+      top: 430px;
+      left: 675px;
+      z-index: 7;
+      }
+#textone{position: absolute;
+      top: 200px;
+      left: 425px;
+      color: red;
+      z-index: 8;
+      }
+#texttwo{position: absolute;
+      top: 700px;
+      left: 975px;
+      color: blue;
+      z-index: 9;
+      }
