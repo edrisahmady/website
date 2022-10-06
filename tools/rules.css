@@ -75,14 +75,28 @@ a{
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: grey;}
 
-
-.title{
-    position: fixed;
-    margin-left: 5vw;
-    margin-top: 12vh;
+div.lists{
+    text-align: center;
+}
+.category{
+    position: relative;
+    margin-top: 5vh;
+    margin-bottom: 1vh;
     font-family: 'Maven Pro', sans-serif;
     font-weight: bold;
-    font-size: 48pt;
+    font-size: 26pt;
     text-decoration: underline;
     color: #D3AF37
+}
+ul.items{
+    display: inline-block;
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: 'Maven Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 20pt;
+    text-decoration: none;
+    color: #D3AF37
+
 }
