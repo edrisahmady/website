@@ -74,3 +74,11 @@ a{
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: grey;}
+.title{
+    margin-top: 2vh;
+    font-family: 'Maven Pro', sans-serif;
+    font-weight: bold;
+    font-size: 36pt;
+    text-decoration: underline;
+    color: #D3AF37
+}

@@ -140,12 +140,10 @@ img{
     position: fixed;
     margin-left: auto;
     margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    left:30vw;
+    left:33%;
     bottom: 0%;
-    width: 35vw;
-    height: 60vh;
+    width: 35%;
+    height: 60%;
     animation: mutley 2s ease-in;
 }
 @keyframes mutley {

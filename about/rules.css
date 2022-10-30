@@ -9,16 +9,6 @@ body{
     width: 100vw;
     height: 100vh;
 }
-.social_icons{
-    display: inline-block;
-    position: relative;
-    margin-top: 5vh;
-    margin-left: .25vw;
-    margin-right: .25vw;
-    length:32px;
-    width:32px;
-}
-
 a{
     text-decoration: none;
     color: #D3AF37;
@@ -86,10 +76,9 @@ a{
 
 .title{
     display: flow-root;
-    position: relative;
+    position: absolute;
     margin-left: 5vw;
-    margin-top: 5vh;
-    margin-bottom: 0vh;
+    margin-top: 12vh;
     font-family: 'Maven Pro', sans-serif;
     font-weight: bold;
     font-size: 48pt;
@@ -98,20 +87,13 @@ a{
 }
 .bio{
     display: flow-root;
-    position: relative;
+    position: absolute;
     margin-left: 5vw;
-    margin-top: 1vh;
+    margin-top: 14vh;
     padding-right: 20vw;
     font-family: 'Maven Pro', sans-serif;
     font-weight: normal;
     font-size: 20pt;
     color: #D3AF37
 
-}
-#connect{
-    color: #D3AF37;
-    font-size: 14pt;
-    font-family: 'Maven Pro', sans-serif;
-    text-align: center;
-    margin-top: 1vh;
 }
