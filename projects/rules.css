@@ -76,12 +76,10 @@ a{
 .dropdown:hover .dropbtn {background-color: grey;}
 
 .title{
-    position: fixed;
-    margin-left: 5vw;
-    margin-top: 12vh;
+    position: relative;
     font-family: 'Maven Pro', sans-serif;
     font-weight: bold;
-    font-size: 48pt;
+    font-size: 24pt;
     text-decoration: underline;
     color: #D3AF37
 }
