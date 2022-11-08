@@ -1,0 +1,679 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>National Institute of Standards and Technology (NIST) Cybersecurity Framework v1.1</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+</style></head><body><article id="5a59e78e-3da9-4d98-b5d3-63ba874bb50a" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/lock_gray.svg"/></div><h1 class="page-title">National Institute of Standards and Technology (NIST) Cybersecurity Framework v1.1</h1></header><div class="page-body"><h2 id="c4ca4f92-0e89-4bfe-8586-ad95f3a4e7cf" class=""><span style="border-bottom:0.05em solid"><strong>Introduction</strong></span></h2><p id="476986ba-3747-4704-bff8-4ad8d3e7fa6d" class="">Trying to understand which frameworks to learn about and which to ignore (for the time being) can be a daunting task, especially if you are new to cybersecurity and looking to land your first job. I personally believe that diving into the NIST cybersecurity framework first is a good place to start, due to its nature of being straight to the point and very flexible when it comes to implementation within an organization. I hope that by reading through this summary of the framework, you will gain a functional understanding as to what the NIST cybersecurity framework is, how it functions, and why it is a valuable tool for an organization to implement.</p><hr id="60348250-1fa4-4f50-abec-bfcdffac7a76"/><h2 id="6e50db37-e590-4b50-96a8-be530c7a19de" class=""><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>What is The NIST Cybersecurity Framework?</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></h2><p id="bff39ec6-fa23-477e-83f2-7316d0b9a3ba" class="">Under the Cybersecurity Enhancement Act of 2014 (CEA) the National Institute of Standards and Technology (NIST) was assigned to create a standardized cybersecurity risk framework to aid any entity deemed to be part of the United States’s critical infrastructure. As a result, the NIST Cybersecurity Framework was born. Its goal was to provide participating organizations a way to approach and mitigate risk as much as possible, in addition to creating a process that would continue to manage risk well into the future. </p><hr id="076be866-e57c-4c1d-8f01-7b5a55f55475"/><h2 id="73127e7b-5eb1-4710-a63a-b4dadebba7c0" class=""><strong><span style="border-bottom:0.05em solid">NIST Cybersecurity Framework v1.1</span></strong></h2><p id="17d2b98b-a3db-4e9c-8728-f29b81258b6e" class="">When creating this framework, The National Institute of Standards and Technology wanted to come up with something that would be agile, have the ability to be continuously worked on, and be implemented in a wide range of industries that may deal with cybersecurity risks. Because of that, the framework was built to have the following three aspects: </p><p id="547c811c-ee57-4da7-b147-57096ebdae92" class=""><span style="border-bottom:0.05em solid"><strong>The Core -</strong></span> is a set of activities and outcomes that are unique to an organization but represents industry standards and best practices. This aspect of the framework facilitates communication within an organization to ensure the creation of a process for which risk is mitigated. The Core is made up of five high level functions which are, <strong>Identify, Protect, Detect, Respond, Recover.</strong> Additionally each function consists of categories and subcategories that better define and identify outcomes, and match them to existing standards and guidelines.</p><p id="0be1d87b-bd96-4cb9-b3b2-027d57ab67de" class=""><span style="border-bottom:0.05em solid"><strong>Framework Implementation Tiers -</strong></span> provides a visualization on how an organization views cybersecurity risks, and the processes it has put in place to mitigate said risk. This aspect of the framework consists of four tiers, each describing how much security measures are put in place within an organization.</p><p id="a65a071d-0237-4f69-ae54-46d8f4def7e1" class=""><span style="border-bottom:0.05em solid"><strong>Framework Profile -</strong></span> encapsulates the above-mentioned parts all together and clearly identifies measures taken to mitigate risk. Additionally to clearly stating security goals the organization wishes to achieve. Multiple profiles may exist and can outline the current state of the organization and the state the organization wishes to reach in the future.</p><hr id="1c39e0c3-b9de-4c80-b359-24d3a883dc3c"/><h2 id="5239e37b-f41f-4b73-bcd2-e47ea297ff22" class=""><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid">The Core Functions</span></span></span></span></span></span></span></span></h2><p id="d8ee7518-2740-4a99-8015-1096ac837508" class=""><span style="border-bottom:0.05em solid"><strong>Identify -</strong></span> In this function an organizations duty is to assess and discover all areas where risk may occur. This may involve reviewing systems, people, assets, data, and capabilities. By doing so, will give an organization the ability to clearly document where risk may occur and provide a clear view as to which risk should be prioritized.</p><p id="f3a78d0e-fe1b-4481-aa50-858b3c80e2ca" class=""><span style="border-bottom:0.05em solid"><strong>Protect -</strong></span><span style="border-bottom:0.05em solid"> </span>In this function appropriate measures are taken to remedy all issues present in the identify function.</p><p id="46f3f214-26ab-4679-8cfe-45867415cdcc" class=""><span style="border-bottom:0.05em solid"><strong>Detect -</strong></span> In this function an organization will develop and implement appropriate measures to ensure a cybersecurity event is properly identified in a timely manner, with the least amount of losses incurred.</p><p id="ec904591-557e-4692-a73d-584c14e30b42" class=""><span style="border-bottom:0.05em solid"><strong>Respond -</strong></span> In this function an organization develops and implements a response plan in case of a cybersecurity incident. This involves documentation and communication of any occurrence of a cybersecurity incident.</p><p id="a342455b-9a68-4fe2-8428-43a8dc96884b" class=""><span style="border-bottom:0.05em solid"><strong>Recover -</strong></span> In this function the organization develops and implements appropriate activities in order to restore functions otherwise affected by an incident. Additionally in this function an analysis of the entire framework is done, and improvements are made to prevent the same indecent from occurring again.</p><p id="fc497289-51dc-4d01-bbad-6b2541a61814" class="">***<em>Each function consists of categories and subcategories that are explained in detail within the official NIST Cybersecurity Framework PDF. Below is an image of a table found in that PDF to help you visualize the core functions and categories***</em></p><p id="b8b7ad28-f925-485b-b66d-c2321aa14307" class="">
+</p><figure id="e868f10e-cead-4cac-97e1-84f614141d52" class="image"><a href="National%20Institute%20of%20Standards%20and%20Technology%20(NI%205a59e78e3da94d98b5d363ba874bb50a/Screenshot_2022-11-02_at_6.03.39_PM.png"><img style="width:711px" src="images/nist.png"/></a><figcaption>Framework for Improving Critical Infrastructure Cybersecurity PDF, pg. 23  </figcaption></figure><hr id="34140a06-c763-40fa-b918-280510a80b82"/><h2 id="9ebfd0d3-c57c-44b3-b08d-ba7dbf5286b9" class=""><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>Framework Implementation Tiers </strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></h2><p id="09422f6b-11c9-4ca9-a5aa-c01e36193c6c" class="">The framework implementation tier provides a way for an organization to see how well they have implemented cybersecurity processes and methodologies to mitigate risk. The tiers range from Partial (tier 1) to Adaptive (tier 4), and as an organization moves up in tier, they also move up in the level of sophistication in managing and assessing risk. Below the tiers are explained, and the components that make them up are provided. Additionally, successful completion of all aspects of a tier allows an organization to move up within the tier list.</p><p id="4ba16bc2-3ef2-424e-a1cb-a0fea857fb58" class=""><strong>Tier 1 (Partial)</strong></p><ul id="fac9bc22-95f0-4740-a2d1-e6d3e70ff63a" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><em><strong>Risk Management Process -</strong></em></span> the organizations risk management process is not formalized. Risk is managed in a reactive manner and cybersecurity activities are not in accordance with the organizations risk objectives.</li></ul><ul id="85bd21c0-6607-44ac-ad27-9cfb0b5a07ef" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>Integrated Risk Management Program -</strong></span></em> There is limited awareness of cybersecurity risk within the organizational level. Additionally, the organization implements risk management processes in a case-by-case basis, also the organization lacks the ability to share cybersecurity information within itself.</li></ul><ul id="042591e4-bf95-4f32-9e7a-cb737911d381" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>External Participation -</strong></span></em> The Organization does not understand it’s place in the larger ecosystem it exists in. Additionally, the organization does not share, receive, or gather information from other entities in order to improve the overall cybersecurity landscape.</li></ul><p id="2427d895-f842-45dd-8084-41bf731963ca" class=""><strong>Tier 2 (Risk Informed)</strong></p><ul id="1ca305f0-4fcf-4b99-9e38-205652346913" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><em><strong>Risk Management Process -</strong></em></span> The organizations risk management process gets approved by management but is still not implemented across the entire organization. Risk is managed by the organizations risk objectives.</li></ul><ul id="fc903b11-5c54-477e-ac31-90d416aff381" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>Integrated Risk Management Program -</strong></span></em> There is an awareness of cybersecurity risk within the organizational level, but an organization wide approach to manage the risk has not been established. Additionally, cybersecurity information is shared within the organization but on a purely informal basis.</li></ul><ul id="6c925120-fa5c-4c2f-b294-eb37b019a713" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>External Participation -</strong></span></em> The organization generally understands it’s role within the ecosystem with respects to either it’s dependencies or dependents but not both. The organization has the ability to receive and provide information to and from other entities, but this may not always be the case.</li></ul><p id="0492dab5-661d-4245-9be1-a370c2952294" class=""><strong>Tier 3 (Repeatable)</strong></p><ul id="3ed464d9-04c1-4902-a38a-fd4ba088888d" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><em><strong>Risk Management Process -</strong></em></span> The organization has a risk management process that is formally practiced, approved, and expressed in policy. Additionally, the organizations cybersecurity practices are regularly updated based on best practices.</li></ul><ul id="c02d46a0-8bb1-4893-846d-34db03213a0b" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>Integrated Risk Management Program -</strong></span></em> There is an established, organization wide approach in managing risk. Clear risk policies, processes and procedures are defined, implemented, and reviewed.</li></ul><ul id="d76cc837-56e9-4b51-9ddd-456d00198f02" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>External Participation -</strong></span></em> The organization understands its role in regard to dependencies and dependents in the larger ecosystem. The organization may contribute to the understanding of managing risk in the larger landscape.</li></ul><p id="1bea1afa-c63d-4e93-9e1f-87efab591041" class=""><strong>Tier 4 (Adaptive)</strong></p><ul id="a9117964-35e9-44df-a189-0795b55266a8" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>Risk Management Process -</strong></span></em> The organization implements its cybersecurity best practices from learned experiences, industry best practices, and predictive indicators.</li></ul><ul id="1ccd62a3-fff0-47d2-969b-bc34ddf7e35f" class="bulleted-list"><li style="list-style-type:disc"><strong><em><span style="border-bottom:0.05em solid">Integrated Risk Management Program - </span></em></strong>There is an organization wide effort in managing cybersecurity risk that is done by risk-informed policies, processes, and procedures. There is a clear relationship between organizations objectives and cybersecurity risks.</li></ul><ul id="d36cff4f-5d4f-4bbe-90f1-4b355604cdeb" class="bulleted-list"><li style="list-style-type:disc"><em><span style="border-bottom:0.05em solid"><strong>External Participation -</strong></span></em> The organization understands its role, dependencies, and dependents in the larger ecosystem. Additionally the organization contributes to the broader landscape to improve cybersecurity best practices.</li></ul><hr id="1ac95be7-3859-4ada-8ccb-be5cc854afc0"/><h2 id="23855030-e387-475a-abcd-8ad58d6c9614" class=""><span style="border-bottom:0.05em solid"><strong>Why NIST?</strong></span></h2><p id="1e579804-d8c4-4b81-8a80-bc84810a3266" class="">The NIST cybersecurity framework is a very important tool for any organization looking to mitigate risk within their processes. It allows an organization to review itself by taking into account possible areas where risk may occur, and allow for correction. Doing so provides many benefits ranging from decreasing potential financial losses to increasing confidence within shareholders knowing that the most up to date industry standards are being practiced. </p><p id="521facc9-43df-4c43-976f-e78b554fe7cb" class="">
+</p><p id="6ff4a697-2057-406a-b5e6-9032d4099cad" class="">
+</p><p id="9576d334-f366-42d3-8d9e-a16d2c49780d" class="">
+</p><p id="4ad9ff5d-a75b-431f-9019-07cf45e5e19b" class="">
+</p><p id="636e1f5f-de06-4f9b-a212-161808a9917d" class="">
+</p><p id="5a0cccf9-9b32-457f-9a95-c2aba2d34e44" class="">
+</p><p id="6c1e47cb-d920-492c-a068-b2cc03b727fc" class="">
+</p><p id="2e035729-ae77-4c70-8355-28983c44f558" class="">
+</p><hr id="30c1ba67-386e-4cc8-95ea-b93b369448ff"/><p id="c9b36fae-92dd-404c-9155-a3c494a64e25" class=""><span style="border-bottom:0.05em solid"><em>Reference</em></span></p><ul id="3f322bf3-8474-4028-b0b6-39b0c4b26253" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.04162018.pdf">https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.04162018.pdf</a></li></ul><p id="1a5096d2-2819-4536-b94a-d020ffd97723" class="">
+</p></div></article></body></html>
