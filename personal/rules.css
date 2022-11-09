@@ -36,7 +36,11 @@ li{
     margin-bottom: 0%;
     margin-left:30%;
 }
-
+.x{
+    margin-top: 1%;
+    margin-bottom: 0;
+    margin-left: 95%;
+}
 .title{
     margin-bottom:0%;
     display: flow-root;

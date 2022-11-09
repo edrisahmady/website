@@ -12,7 +12,11 @@ a{
     text-decoration: none;
     color: black;
 }
-
+.x{
+    margin-top: 1%;
+    margin-bottom: 0;
+    margin-left: 95%;
+}
 .title{
     padding-top: 5%;
     margin-bottom: 0%;
