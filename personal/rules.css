@@ -4,38 +4,96 @@
 
 
 body{
-    background-color: #39384F;
+    background-color: #5E645E;
     margin: 0;
     width: 100vw;
     height: 100vh;
 }
+
 a{
     text-decoration: none;
-    color: #D3AF37;
+    color: #000000;
 }
-.heading{
-    display: inline-block;
+
+
+ul{
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    padding-right: 0%;
+    padding-left: 0%;
+    list-style-image: url("images/arrow.png");
+}
+li{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+
+.unfold{
+    margin-top: 5%;
+    margin-bottom: 0%;
+    margin-left:30%;
+}
+
+.title{
+    margin-bottom:0%;
+    display: flow-root;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 30pt;
+    color: #000000;
+}
+.pageName{
+    margin-left: 31%;
+    margin-right: 31%;
+    margin-top: 5%;
+}
+.bio{
+    margin-top: 0%;
+    margin-bottom: 5%;
+    margin-left: 31%;
+    margin-right: 31%;
+    font-size: 12pt;
+}
+.topLine{
     position: relative;
-    font-size: 1.4em;
-    font-family: 'Maven Pro', sans-serif;
-    font-weight: lighter;
-    color: #D3AF37;
-    text-decoration: overline;
+    border: none;
+    height: 5px;
+    width: 40%;
+    background: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2vh;
-    margin-right: auto;
-    padding-left: 13vw;
-    padding-right: auto;
 }
-.title{
-    display: flow-root;
-    position: absolute;
-    margin-left: 5vw;
-    margin-top: 12vh;
-    font-family: 'Maven Pro', sans-serif;
-    font-weight: bold;
-    font-size: 24pt;
-    text-decoration: underline;
-    color: #D3AF37
+.list{
+    font-size: 14pt;
+    margin-left: 31%;
+    margin-right: 31%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.bottomLine{
+    position: relative;
+    border: none;
+    height: 5px;
+    width: 40%;
+    background: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.button a{
+    color: Black;
+    padding: 0px 0px;
+    text-decoration: none;
+    display: block;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+.button a:hover{
+    background-color: white;
 }
