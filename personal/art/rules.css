@@ -1,0 +1,54 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Xanh+Mono&display=swap');
+
+
+
+
+
+
+body{
+    color: white;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+p{
+    margin-bottom: 10%;
+}
+
+.logo{
+    margin-left: 20%;
+    margin-top: 2%;
+}
+.title{
+    color: white;
+    font-family: 'Xanh Mono', monospace;
+    text-decoration: line-through;
+    font-size: 12pt;
+    display: block;
+    padding-right: 25%;
+    margin-left: 25%;
+    margin-top: 10%;
+    margin-bottom: 0%;
+}
+#title2{
+    color: white;
+    font-family: 'Xanh Mono', monospace;
+    font-weight: bold;
+    font-size: 60pt;
+    display: block;
+    margin-right: 50%;
+    margin-left: 50%;
+    margin-top: 0%;
+    margin-bottom: 10%;
+}
+.art_work{
+    text-align: center;
+    width: 50%;
+    margin-left: 28%;
+    margin-right: 28%;
+}
