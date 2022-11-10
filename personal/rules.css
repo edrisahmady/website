@@ -99,5 +99,6 @@ li{
     margin-bottom: 0%;
 }
 .button a:hover{
-    background-color: white;
+    background-color: #e5e5e5;
+    transition: .5s;
 }
