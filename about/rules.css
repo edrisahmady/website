@@ -6,8 +6,15 @@
 body{
     background-color: #39384F;
     margin: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+}
+ul{
+        margin-top: 0%;
+        margin-right: 0%;
+        margin-left: 0%;
+        margin-bottom: 0%;
+
 }
 .social_icons{
     display: inline-block;
@@ -23,28 +30,29 @@ a{
     text-decoration: none;
     color: #D3AF37;
 }
+
 .heading{
-    display: inline-block;
-    position: relative;
-    font-size: 1.4em;
+    font-size: 18pt;
     font-family: 'Maven Pro', sans-serif;
     font-weight: lighter;
     color: #D3AF37;
-    text-decoration: overline;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2vh;
-    margin-right: auto;
-    padding-left: 13vw;
-    padding-right: auto;
 }
+li{
+    display: inline-block;
+    list-style: none;
+    margin-left: 5%;
+    text-decoration: overline;
+    margin-left: 10%;
+    margin-bottom: 4%;
+}
+
 .dropbtn {
   background-color: #39384F;
   color: #D3AF37;
   font-family: 'Maven Pro', sans-serif;
   font-weight: lighter;
   padding: 16px;
-  font-size: 1.4em;
+  font-size: 18pt;
   text-decoration: overline;
   border: none;
 }
@@ -52,7 +60,8 @@ a{
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 13vw;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -60,6 +69,7 @@ a{
   display: none;
   position: absolute;
   font-family: 'Maven Pro', sans-serif;
+  font-size: 12pt;
   font-weight: lighter;
   background-color: #39384F;
   min-width: 160px;
@@ -108,10 +118,14 @@ a{
     color: #D3AF37
 
 }
+.socials{
+    margin-top: 20%;
+}
 #connect{
     color: #D3AF37;
     font-size: 14pt;
     font-family: 'Maven Pro', sans-serif;
     text-align: center;
-    margin-top: 1vh;
+    margin-top: .5%;
+    margin-bottom: 4%;
 }
