@@ -4,9 +4,29 @@
 
 body{
     background-color: #39384F;
-    margin: 0;
-    width: 100vw;
-    height: 100vh;
+    margin: 0%;
+    width: 100%;
+    height: 100%;
+}
+ul{
+    margin: 0%;
+    padding: 0%;
+
+}
+h1{
+    margin: 0%;
+    padding: 0%;
+    margin-block-start: 0%;
+    margin-block-end: 0%;
+}
+.social_icons{
+    display: inline-block;
+    position: relative;
+    margin-top: 5vh;
+    margin-left: .25vw;
+    margin-right: .25vw;
+    length:32px;
+    width:32px;
 }
 
 a{
@@ -14,21 +34,21 @@ a{
     color: #D3AF37;
 }
 
-
 .heading{
-    display: inline-block;
-    position: relative;
-    font-size: 1.4em;
+    font-size: 18pt;
     font-family: 'Maven Pro', sans-serif;
     font-weight: lighter;
     color: #D3AF37;
+}
+li{
+    text-align: center;
+    display: inline-block;
+    list-style: none;
+    margin-left: 5%;
     text-decoration: overline;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2vh;
-    margin-right: auto;
-    padding-left: 13vw;
-    padding-right: auto;
+    margin-left: 10%;
+    margin-bottom: 0%;
+    margin-top: 0;
 }
 
 .dropbtn {
@@ -37,7 +57,7 @@ a{
   font-family: 'Maven Pro', sans-serif;
   font-weight: lighter;
   padding: 16px;
-  font-size: 1.4em;
+  font-size: 18pt;
   text-decoration: overline;
   border: none;
 }
@@ -45,7 +65,8 @@ a{
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 13vw;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -53,6 +74,7 @@ a{
   display: none;
   position: absolute;
   font-family: 'Maven Pro', sans-serif;
+  font-size: 12pt;
   font-weight: lighter;
   background-color: #39384F;
   min-width: 160px;
@@ -72,28 +94,24 @@ a{
 .dropdown-content a:hover {background-color: grey;}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display:block;}
+.dropdown:hover .dropdown-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: grey;}
 
 
-#firstname{
-    display: block;
+
+.firstname{
+    display: inline-block;
     position: relative;
-    margin-top: 3vh;
-    margin-bottom: auto;
-    margin-left: 3vw;
-    margin-right: auto;
+    margin-top: 0%;
+    margin-left: 5%;
     font-family: 'Maven Pro', sans-serif;
     font-weight: bolder;
-    letter-spacing: .125em;
-    font-size: 8em;
+    letter-spacing: 10px;
+    font-size: 60pt;
     color: #D3AF37;
-    padding-top: 0vh;
-    padding-bottom: 0vh;
-    padding-left: 0vw;
-    padding-right: 0vw;
+    padding: 0%;
     animation: firstname 2s ease-in;
 }
 @keyframes firstname {
@@ -106,22 +124,20 @@ a{
 
 }
 
-#lastname{
-    display: block;
+.lastname{
+    display: inline-block;
     position: relative;
-    margin-top: auto;
-    margin-bottom: 3vh;
-    margin-left: auto;
-    margin-right: 4vw;
+    margin-left: 85%;
+    margin-right: 0%;
+    margin-top: -7%;
+    margin-bottom: 0%;
+    padding: 0%;
     font-family: 'Maven Pro', sans-serif;
     font-weight: bolder;
-    letter-spacing: .125em;
-    font-size: 8em;
+    letter-spacing: 10px;
+    font-size: 60pt;
     color: #D3AF37;
-    padding-top: 0vh;
-    padding-bottom: 0vh;
-    padding-left: 0vw;
-    padding-right: 0vw;
+    padding: 0%;
     writing-mode: vertical-rl;
     animation: lastname 2s ease-in;
 }
@@ -135,23 +151,11 @@ a{
 
 }
 
-img{
-    display: block;
-    position: fixed;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    left:30vw;
-    bottom: 0%;
-    width: 35vw;
-    height: 60vh;
-    animation: mutley 2s ease-in;
+.picture{
+    display: inline-block;
+    position: relative;
+    width: 35%;
+    margin-top: -35%;
+    margin-left: 35%;
+    margin-bottom: 0%;
 }
-@keyframes mutley {
-    0%{
-        transform: translateY(550px);
-    }
-    100%{
-        transform: translateY(0px);
-    }
