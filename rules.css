@@ -63,6 +63,7 @@ li{
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
+  text-align: left;
   position: absolute;
   font-family: 'Maven Pro', sans-serif;
   font-size: 12pt;
