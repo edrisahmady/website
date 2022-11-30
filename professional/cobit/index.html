@@ -1,0 +1,670 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Control Objectives for Information Technology (COBIT)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1a5fe320-30ba-416c-8152-a9a52739b6f8" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_lightgray.svg"/></div><h1 class="page-title">Control Objectives for Information Technology (COBIT)</h1></header><div class="page-body"><p id="3874c020-7572-4f68-84a6-5dc40055f4ca" class="">By: Edris Ahmady</p><h2 id="68e0b656-b08b-4b1b-81f0-aff444dc4e93" class=""><span style="border-bottom:0.05em solid"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Introduction:</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></h2><p id="6641a222-4c0a-4784-9aec-293c3fe762e0" class="">Frameworks come in many shapes and sizes, some may serve a specific purpose while others are general guidelines meant to be followed to optimize tasks and processes within an organization. Frameworks such as The NIST Cybersecurity framework were born to mitigate risk as much as possible within an organization dealing with a lot of technology assets. On the other hand, frameworks such as COBIT are overarching and are intended to be implemented in a wide range of industries and organizations, many times working in tandem with frameworks like the NIST Cybersecurity Framework.</p><hr id="df77e4c3-f499-4db7-a3d0-157f06858454"/><h2 id="c9d766b6-3003-495c-b1e1-51b67483fce5" class=""><span style="border-bottom:0.05em solid"><strong>What is COBIT:</strong></span></h2><p id="2826d633-66c2-4e67-ae38-3bbc4f4ceb22" class="">The Control Objectives for Information Technologies (COBIT) is a valuable framework that aims to provide governance and management to an organization’s information and technology assets. It consists of five core principles, seven holistic enablers, and seven steps for successfully implementing IT assets within an organization. When all of these components come together, an organization will have a successful, efficient, and agile way of managing, implementing, and keeping up to date with all of its information and technology assets.</p><hr id="be1bd6ff-7426-4b01-a9ed-52958fed6627"/><h2 id="33366e76-578b-4856-b73f-5c89f78149d8" class=""><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>Five Core Principles of COBIT:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></h2><ol type="1" id="5b28b5a8-e9fe-4b8b-a138-2e9734fc5ff2" class="numbered-list" start="1"><li><span style="border-bottom:0.05em solid"><em><strong>Meeting Stakeholders needs</strong></em></span><ol type="a" id="4d23f870-f7f7-4857-95e9-468b8eeda2f1" class="numbered-list" start="1"><li><em><strong></strong></em>One of the main things to keep in mind when implementing COBIT is to always pay attention to your stakeholders needs. Although it might be pretty self-explanatory, an enterprise’s main purpose is to create value for stakeholders. This may be done by either, benefit realization, risk optimization or resource optimization. Additionally, when clear goals/needs are set by stakeholders it creates a cascading effect throughout the entire organization which can create synergy.</li></ol></li></ol><ol type="1" id="109a681e-3d0a-47f7-9cdb-b18687584710" class="numbered-list" start="2"><li><em><strong></strong></em><span style="border-bottom:0.05em solid"><em><strong>Covering the Enterprise End to End</strong></em></span><ol type="a" id="d258494b-563a-472e-b241-eeec302a3993" class="numbered-list" start="1"><li><em><strong></strong></em>This means that COBIT is intended to be implemented in all aspects existing within an organization. The governance and management of information and technology is addressed from the top level of management all the way to the lowest level.</li></ol></li></ol><ol type="1" id="07806bbf-6e83-4655-8639-a0db1980a5d8" class="numbered-list" start="3"><li><em><strong></strong></em><span style="border-bottom:0.05em solid"><em><strong>Applying a Single Integrated Framework</strong></em></span><ol type="a" id="829f1463-005f-4266-9494-dfb6adecc077" class="numbered-list" start="1"><li><em><strong></strong></em>COBIT is an overarching framework intended to work alongside detailed and specific frameworks. It is important when using COBIT to also use industry specific/standard best practices.</li></ol></li></ol><ol type="1" id="d867a0e6-f326-4438-9af1-ad73f3f72839" class="numbered-list" start="4"><li><em><strong></strong></em><span style="border-bottom:0.05em solid"><em><strong>Enabling a Holistic Approach</strong></em></span><ol type="a" id="cf7c654a-822e-425f-85f6-c51059c4d017" class="numbered-list" start="1"><li><em><strong></strong></em>COBIT’s purpose is to encapsulate an entire organization, this can be done by seven holistic enablers that optimize information and technology achieving common goals.</li></ol><ol type="a" id="7b3036ed-867d-4e88-a2bc-ec68af5d6665" class="numbered-list" start="2"><li><em><strong></strong></em>The seven holistic enablers are as follows:<ol type="i" id="323025f9-89b1-4092-880d-e39e6c94cc5b" class="numbered-list" start="1"><li><strong><span style="border-bottom:0.05em solid">Process:</span></strong> Are an organizations practices and activities that work together to achieve a certain objective or produce a certain outcome all of which are in support of IT related goals.</li></ol><ol type="i" id="85b3fe37-d5ad-43ee-a439-6144cdf8ce08" class="numbered-list" start="2"><li><span style="border-bottom:0.05em solid"><strong>Organizational Structure:</strong></span> Are vital aspects of an organization responsible for major decision making.</li></ol><ol type="i" id="773fb690-579b-4614-abba-bab05a4b609f" class="numbered-list" start="3"><li><span style="border-bottom:0.05em solid"><strong>Culture, Ethics, and Behavior:</strong></span> Are underestimated factors in the governance and management activities within an organization.</li></ol><ol type="i" id="963aef3c-3957-4896-a91d-8fb5b8e4a457" class="numbered-list" start="4"><li><span style="border-bottom:0.05em solid"><strong>Principle, Policies, and Frameworks:</strong></span> Are the catalyst in translating necessary behaviors and activities into guidance for day to day management.</li></ol><ol type="i" id="786b81a8-e820-4809-aa20-25c50316a860" class="numbered-list" start="5"><li><span style="border-bottom:0.05em solid"><strong>Information:</strong></span> Information is vital to all aspects of an organization, information just by itself is crucial in keeping an organization on its feet.</li></ol><ol type="i" id="050d7d5c-8798-4ddd-ae75-f8b4e637cc76" class="numbered-list" start="6"><li><span style="border-bottom:0.05em solid"><strong>Service, Infrastructure, and Application:</strong></span> are the infrastructure, technology and application that provides an organization with information technology. </li></ol><ol type="i" id="0ee4dfce-ed1d-4d7f-88a0-857d24a9a0fe" class="numbered-list" start="7"><li><span style="border-bottom:0.05em solid"><strong>People, Skills, and Competences:</strong></span> At the end the people, their skills, and competences are whats most important to facilitate decision making and corrective actions.</li></ol></li></ol></li></ol><ol type="1" id="f195988c-8a0d-4ac4-942c-f611f0b3a8bb" class="numbered-list" start="5"><li><em><strong></strong></em><span style="border-bottom:0.05em solid"><em><strong>Separating Governance from Management</strong></em></span><ol type="a" id="d4960a8b-67e8-4b89-9994-a8bbea670bc1" class="numbered-list" start="1"><li><em><strong></strong></em>It is important to separate Governance from Management to ensure best practices are being followed. It helps ensure that the organization is always following common goals set between them.</li></ol></li></ol><hr id="66536dda-dd0b-40e9-9b4e-6240155fed56"/><h2 id="0468a840-71e9-4675-b4ad-249b492e6935" class=""><span style="border-bottom:0.05em solid"><strong>The Seven phases for Implementation</strong></span></h2><ol type="1" id="aabe1a79-43e4-4ea4-8219-87394e30691c" class="numbered-list" start="1"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>What are the drivers?:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span> In the first phase an organization comes together to recognize and agree to the need of implementing Information and technology governance and management.  </li></ol><ol type="1" id="c6dfe6b4-1143-48da-85ad-8bcd852eeadf" class="numbered-list" start="2"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>What are we now?: </strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span>  In this phase an organization focuses on defining the scope of implementation using COBIT mapping of enterprise goals. This means that an organization looks at where Information and technology can be implemented to increase value and reach stakeholder needs.</li></ol><ol type="1" id="9f66c3ab-96b1-4608-8506-74a2b81e7578" class="numbered-list" start="3"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>What do we want to be?:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span> This phase targets are set, followed by more detailed analysis in order to identify gaps and potential solutions.</li></ol><ol type="1" id="c4000570-c878-4eb1-82e1-317b5936c7f0" class="numbered-list" start="4"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>What needs to be done?:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span>  In this phase, practical solutions are defined and projects are set where information and technology is used to further business processes </li></ol><ol type="1" id="d8159f07-d6a3-42dc-a93e-50ad2b71610f" class="numbered-list" start="5"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>How do we get there?:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span> In this phase, the solutions are implemented in day to day practices. Then measures can be defined to see if implementing COBIT have helped them achieve an organizations goals. </li></ol><ol type="1" id="e000be8f-489b-46e5-b241-d73558058876" class="numbered-list" start="6"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>Did we get there?:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span> In this phase, an organization focuses on measures to see if new or improved enables need to be added to achieve further goals. </li></ol><ol type="1" id="443b7f97-2692-4638-bc61-a003fc81fd95" class="numbered-list" start="7"><li><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>How do we keep this momentum going?</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span> In this phase, the overall implementation, management, and governance of processes, information and technology is assessed to see if anymore improvements are needed or to see if overarching goals have been achieved. </li></ol><hr id="057e4d93-a5d4-4d9b-aaa4-8e567dc86eef"/><h2 id="53057f2b-e423-475b-b712-c805fb727c37" class=""><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong><span style="border-bottom:0.05em solid"><strong>Conclusion:</strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></strong></span></h2><p id="616cc36b-9f10-4b79-a3b4-bce107b34e2a" class="">I hope by reading this quick blurb about COBIT you were able to understand what the overarching goal of COBIT is and its necessity for implementation. This was just a quick explanation of what COBIT is and what it is meant to do. To learn more about this framework and to see its implementations in specific cases I highly encourage you to visit www.isaca.org/resource/cobit. </p><p id="58719ab1-10c1-45e6-b488-d1a9ff78ddfa" class="">
+</p></div></article></body></html>
