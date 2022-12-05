@@ -53,14 +53,14 @@ a{
 .numbers{
     margin-top: 0px;
     margin-bottom: 0px;
-    font-size: 48pt;
+    font-size: 36pt;
 }
 
 .headingLines{
     position: relative;
     border: none;
     height: 8px;
-    width: 35%;
+    width: 80%;
     background: black;
     margin-top: 0px;
     margin-bottom: 0px;
