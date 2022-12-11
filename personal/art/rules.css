@@ -3,9 +3,6 @@
 
 
 
-
-
-
 body{
     color: white;
     background-color: black;
@@ -44,7 +41,16 @@ p{
     margin-right: 50%;
     margin-left: 50%;
     margin-top: 0%;
+    margin-bottom: 0%;
+}
+#titleLine {
+    position: relative;
+    border: none;
+    height: 8px;
+    width: 40%;
     margin-bottom: 10%;
+    background: white;
+
 }
 .art_work{
     text-align: center;
