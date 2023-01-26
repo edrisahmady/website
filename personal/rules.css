@@ -42,7 +42,7 @@ li{
     margin-left: 95%;
 }
 .title{
-    margin-bottom:0%;
+    margin-bottom: 0%;
     display: flow-root;
     font-family: "Times New Roman", Times, serif;
     font-weight: bold;
@@ -56,7 +56,7 @@ li{
 }
 .bio{
     margin-top: 0%;
-    margin-bottom: 5%;
+    margin-bottom: 0%;
     margin-left: 31%;
     margin-right: 31%;
     font-size: 12pt;
