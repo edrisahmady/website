@@ -23,16 +23,6 @@ h1 {
   margin-block-end: 0%;
 }
 
-.social_icons {
-  display: inline-block;
-  position: relative;
-  margin-top: 5vh;
-  margin-left: .25vw;
-  margin-right: .25vw;
-  height: 32px;
-  width: 32px;
-}
-
 a {
   text-decoration: none;
   color: none;
