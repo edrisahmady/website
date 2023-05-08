@@ -3,6 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
 
 
+
+
+
+
 body{
     background-color: black;
     margin: 0;
@@ -18,7 +22,6 @@ ul{
     margin-right: 0%;
     margin-left: 0%;
     margin-bottom: 0%;
-
 }
 .heading{
     font-size: 18pt;
