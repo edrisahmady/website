@@ -54,7 +54,6 @@ li{
     display: inline-block;
     list-style: none;
     margin-left: 5%;
-    text-decoration: overline;
     margin-left: 10%;
     margin-bottom: 0%;
     margin-top: 0;
@@ -67,7 +66,6 @@ li{
     font-weight: lighter;
     padding: 16px;
     font-size: 18pt;
-    text-decoration: overline;
     border: none;
     transition: all .3s linear;
 }
