@@ -1,1 +1,15 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<head>
+    <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
+    <title>Superblocks App</title>
+</head>
+<body>
+    <script>
+        const sbApp = Superblocks.createSuperblocksEmbed({
+            src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
+            // No properties defined. Use the Embed panel to add properties and uncomment this block.
+            // properties: { EmbedProp1: "Hello World" }
+        });
+        document.body.appendChild(sbApp);
+    </script>
+</body>
