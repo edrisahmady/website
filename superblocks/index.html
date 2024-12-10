@@ -1,83 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
+    <title>Superblocks App</title>
+    <style>
+        /* Ensure the body and html take up the full viewport */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-
-<style>
-    .app-content {
-        height:      100%;
-        padding-top: 0;
-    }
-
-    #superblocks-container {
-        width:  100%;
-        height: 100%;
-    }
-</style>
+        /* Style for the Superblocks embed to occupy the full window */
+        #sbAppContainer {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
-
 <body>
-    <div id="superblocks-container"></div>
-
-<script>
-    // Change the theme based on the darkSwitch
-    document.getElementById('darkSwitch').addEventListener('change', function () {
-        var darkThemeSelected = localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark';
-
-        document.getElementById('sb-embed').colorScheme = darkThemeSelected ? 'light' : 'dark';
-    });
-
-    // Function to fetch Superblocks token
-    async function getSBToken() {
-        try {
-            const response = await fetch('https://app.superblocks.com/api/v1/public/token', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer C5785xHhINvik960enlBRxdK6NCbRAQvX33dM6fYsBZ0840f',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: 'jd@xcelmg.com',
-                    name: 'JD',
-                }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                return data.access_token;
-            } else {
-                console.error('Failed to fetch Superblocks token:', response.status, response.statusText);
-                throw new Error('Superblocks token fetch failed');
-            }
-        } catch (error) {
-            console.error('Error fetching Superblocks token:', error);
-            throw error;
-        }
-    }
-
-    // Initialize the Superblocks app
-    async function initializeSuperblocks() {
-        try {
-            var darkThemeSelected = localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark';
-
-            const token = await getSBToken(); // Fetch the token
-
-            const sbApp = Superblocks.createSuperblocksEmbed({
-                src: 'https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4',
-                colorScheme: darkThemeSelected ? 'dark' : 'light',
-                token: token,
-                id: 'sb-embed',
-            });
-
-            document.getElementById('superblocks-container').appendChild(sbApp);
-        } catch (error) {
-            console.error('Failed to initialize Superblocks:', error);
-        }
-    }
-
-    // Call the initialization function
-    initializeSuperblocks();
-</script>
+    <div id="sbAppContainer"></div> <!-- Container for the Superblocks app -->
+    <script>
+        const sbApp = Superblocks.createSuperblocksEmbed({
+            src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
+            // Uncomment and add properties if needed
+            // properties: { EmbedProp1: "Hello World" }
+        });
+        // Append the embed to the container div
+        document.getElementById("sbAppContainer").appendChild(sbApp);
+    </script>
 </body>
 </html>
+
