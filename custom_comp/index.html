@@ -13,7 +13,8 @@
   // Listen for messages from the embedded app
   window.addEventListener("message", (event) => {
     // Log the message event to see if it's working
-    console.log("Received message:", event);
+    console.log("Received message:", event); // Log full event object
+    console.log("event.data:", event.data); // Log event.data to inspect its structure
 
     // Ensure the message is coming from the correct Superblocks app
     if (event.origin !== "https://app.superblocks.com") {
@@ -25,9 +26,12 @@
     if (event.data && event.data.action === "taskAdded") {
       console.log("Received message from embedded app:", event.data.message);
 
+      // If the message is nested, use the appropriate structure
+      const message = event.data.message || event.data.data?.message; // Check both potential structures
+
       // Create and display the message in the parent app
       const messageElement = document.createElement("p");
-      messageElement.textContent = event.data.message; // Should be "hello"
+      messageElement.textContent = message; // Should be "hello"
       document.body.appendChild(messageElement); // Add it to the DOM
     }
   });
