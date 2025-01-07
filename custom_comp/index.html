@@ -21,12 +21,8 @@
       return;
     }
 
-    // Validate the structure of event.data
-    if (
-      !event.data ||
-      typeof event.data.action !== "string" ||
-      typeof event.data.message !== "string"
-    ) {
+    // Check for the structure of event.data
+    if (!event.data || typeof event.data.type !== "string") {
       console.warn(
         "Invalid message structure:",
         JSON.stringify(event.data, null, 2)
@@ -34,19 +30,25 @@
       return;
     }
 
-    // Handle the "taskAdded" action
-    if (event.data.action === "taskAdded") {
-      console.log("Task added message received:", event.data.message);
+    // Handle specific message types
+    switch (event.data.type) {
+      case "taskAdded":
+        console.log("Task added message received:", event.data.data?.message);
 
-      // Display the message in the DOM
-      const messageElement = document.createElement("p");
-      messageElement.textContent = event.data.message;
-      document.body.appendChild(messageElement);
-    } else {
-      console.warn(
-        "Unexpected message format or action:",
-        JSON.stringify(event.data, null, 2)
-      );
+        // Display the message in the DOM
+        const messageElement = document.createElement("p");
+        messageElement.textContent =
+          event.data.data?.message || "No message provided";
+        document.body.appendChild(messageElement);
+        break;
+
+      case "APP_LOADED":
+        console.log("App loaded message received:", event.data.data);
+        // Handle app loaded event if needed
+        break;
+
+      default:
+        console.warn("Unexpected message type:", event.data.type);
     }
   });
 </script>
