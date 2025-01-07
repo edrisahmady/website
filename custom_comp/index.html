@@ -43,8 +43,11 @@
         break;
 
       case "APP_LOADED":
-        console.log("App loaded message received:", event.data.data);
-        // Handle app loaded event if needed
+        console.log("App loaded event received:", event.data.data);
+        break;
+
+      case "INITIALIZED":
+        console.log("App initialized event received:", event.data.data);
         break;
 
       default:
