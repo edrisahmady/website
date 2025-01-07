@@ -13,25 +13,40 @@
 
   // Listen for messages from the embedded app
   window.addEventListener("message", (event) => {
-    console.log("Received message event:", event); // Debug: Log the full event
-    console.log("Received message data:", event.data); // Debug: Log just the data
+    console.log("Received message event:", JSON.stringify(event.data, null, 2));
 
-    // Validate the message origin
+    // Verify the origin of the message
     if (event.origin !== "https://app.superblocks.com") {
       console.warn("Untrusted origin:", event.origin);
       return;
     }
 
-    // Handle "taskAdded" action
-    if (event.data && event.data.action === "taskAdded") {
-      console.log("Task added message:", event.data.message);
+    // Validate the structure of event.data
+    if (
+      !event.data ||
+      typeof event.data.action !== "string" ||
+      typeof event.data.message !== "string"
+    ) {
+      console.warn(
+        "Invalid message structure:",
+        JSON.stringify(event.data, null, 2)
+      );
+      return;
+    }
 
-      // Create and display the message in the parent app
+    // Handle the "taskAdded" action
+    if (event.data.action === "taskAdded") {
+      console.log("Task added message received:", event.data.message);
+
+      // Display the message in the DOM
       const messageElement = document.createElement("p");
-      messageElement.textContent = event.data.message || "No message content";
-      document.body.appendChild(messageElement); // Add it to the DOM
+      messageElement.textContent = event.data.message;
+      document.body.appendChild(messageElement);
     } else {
-      console.warn("Unexpected message format or action:", event.data);
+      console.warn(
+        "Unexpected message format or action:",
+        JSON.stringify(event.data, null, 2)
+      );
     }
   });
 </script>
