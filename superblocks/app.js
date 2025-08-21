@@ -4,9 +4,12 @@ console.log("[app] script loaded"); // You MUST see this after refresh
   // ---- CONFIG (replace these) ----
   const DOMAIN = "dev-ajpiv5ho3pze4hxh.us.auth0.com";
   const CLIENTID = "WEWimGffakZxFFcDVXuiqtCGAKl85zrO";
-  const CLAIM_KEY = "https://edrisahmady.com/superblocks/token"; // from your Action
   const EMBED_SRC =
     "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4";
+
+  // Replace this with your actual Superblocks embed token
+  const SUPERBLOCKS_EMBED_TOKEN =
+    "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM"; // Get this from your Superblocks app settings
 
   // ---- UI handles ----
   const ui = {
@@ -33,7 +36,8 @@ console.log("[app] script loaded"); // You MUST see this after refresh
     return;
   }
 
-  ui.statusText.textContent = "Creating Auth0 client…";
+  console.log("[app] Creating Auth0 client…");
+  ui.statusText.textContent = "Initializing authentication…";
 
   let a0;
   try {
@@ -41,40 +45,43 @@ console.log("[app] script loaded"); // You MUST see this after refresh
       domain: DOMAIN,
       clientId: CLIENTID,
       authorizationParams: {
-        redirect_uri: window.location.origin,
-        scope: "openid profile email", // Ensure we get ID token
+        redirect_uri: window.location.href.split("?")[0], // Current page without query params
+        scope: "openid profile email",
       },
-      cacheLocation: "localstorage", // Help with auth state persistence
+      cacheLocation: "localstorage",
     });
+    console.log("[app] Auth0 client created successfully");
   } catch (e) {
-    ui.statusText.textContent = "Failed to create Auth0 client";
+    console.error("[app] Failed to create Auth0 client:", e);
+    ui.statusText.textContent = "Failed to initialize authentication";
     showErr(e.message || e);
     return;
   }
 
-  console.log("[app] Auth0 client created");
-
   // ---- Handle redirect callback after login ----
-  if (location.search.includes("code=") && location.search.includes("state=")) {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has("code") && urlParams.has("state")) {
     console.log("[app] handling redirect callback…");
-    ui.statusText.textContent = "Processing authentication…";
+    ui.statusText.textContent = "Completing authentication…";
 
     try {
       const result = await a0.handleRedirectCallback();
-      console.log("[app] redirect callback result:", result);
+      console.log("[app] redirect callback successful:", result);
 
-      // Clean up the URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-      console.log("[app] redirect handled; URL cleaned");
+      // Clean up the URL - remove the query parameters
+      const cleanUrl = window.location.href.split("?")[0];
+      window.history.replaceState({}, document.title, cleanUrl);
+      console.log("[app] URL cleaned, proceeding to load app");
     } catch (e) {
       console.error("[app] redirect callback error:", e);
       ui.statusText.textContent = "Authentication failed";
-      showErr(`Redirect callback error: ${e.message || e}`);
+      showErr(`Authentication error: ${e.message || e}`);
       return;
     }
   }
 
   // ---- Check auth state ----
+  console.log("[app] checking authentication status…");
   let authed;
   try {
     authed = await a0.isAuthenticated();
@@ -88,7 +95,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
 
   if (!authed) {
     console.log("[app] user not authenticated, showing login");
-    ui.statusText.textContent = "You need to log in to view the embed.";
+    ui.statusText.textContent = "Please log in to access the application.";
     ui.loginBtn.style.display = "inline-block";
     ui.loginBtn.onclick = () => {
       console.log("[app] initiating login");
@@ -97,75 +104,77 @@ console.log("[app] script loaded"); // You MUST see this after refresh
     return;
   }
 
-  console.log("[app] user is authenticated");
+  console.log("[app] user is authenticated!");
+
+  // Show logout button
   ui.logoutBtn.style.display = "inline-block";
-  ui.logoutBtn.onclick = () =>
-    a0.logout({ logoutParams: { returnTo: window.location.origin } });
+  ui.logoutBtn.onclick = () => {
+    console.log("[app] logging out");
+    const logoutUrl = window.location.href.split("?")[0];
+    a0.logout({
+      logoutParams: {
+        returnTo: logoutUrl,
+      },
+    });
+  };
 
-  // ---- Get ID token claims and pull Superblocks token ----
-  ui.statusText.textContent = "Fetching user information…";
-
-  let claims;
+  // ---- Get user info (optional - for display purposes) ----
   try {
-    claims = await a0.getIdTokenClaims();
-    console.log("[app] ID token claims:", claims);
+    const user = await a0.getUser();
+    console.log("[app] authenticated user:", user);
   } catch (e) {
-    console.error("[app] error getting ID token claims:", e);
-    ui.statusText.textContent = "Error getting user information";
-    showErr(`Failed to get ID token claims: ${e.message || e}`);
-    return;
+    console.warn("[app] could not get user info:", e);
+    // This is not critical, continue loading the app
   }
 
-  if (!claims) {
-    ui.statusText.textContent = "No user claims found";
-    showErr(
-      "ID token claims are empty. This might be an Auth0 configuration issue."
-    );
-    return;
-  }
-
-  const sbToken = claims[CLAIM_KEY];
-  console.log(
-    "[app] superblocks token from claims:",
-    sbToken ? "present" : "missing"
-  );
-
-  if (!sbToken) {
-    ui.statusText.textContent = "Missing Superblocks authorization";
-    showErr(
-      `Claim '${CLAIM_KEY}' not found in ID token. Please verify:\n` +
-        `1. Your Auth0 Action is properly configured\n` +
-        `2. The Action is added to the Login flow\n` +
-        `3. The custom claim is being set in the ID token`
-    );
-    return;
-  }
-
-  // ---- Render the embed ----
-  console.log("[app] rendering Superblocks embed");
+  // ---- Render the Superblocks embed ----
+  console.log("[app] loading Superblocks application…");
   ui.statusText.textContent = "Loading application…";
 
+  // Validate embed token
+  if (
+    !SUPERBLOCKS_EMBED_TOKEN ||
+    SUPERBLOCKS_EMBED_TOKEN === "your_embed_token_here"
+  ) {
+    ui.statusText.textContent = "Application not configured";
+    showErr("Please set your SUPERBLOCKS_EMBED_TOKEN in the code");
+    return;
+  }
+
   try {
+    // Ensure Superblocks SDK is loaded
+    if (!window.Superblocks || !window.Superblocks.createSuperblocksEmbed) {
+      throw new Error(
+        "Superblocks SDK not loaded. Check that the embed script is loading correctly."
+      );
+    }
+
+    console.log("[app] creating Superblocks embed with token");
     const embed = window.Superblocks.createSuperblocksEmbed({
       src: EMBED_SRC,
-      token: sbToken,
+      token: SUPERBLOCKS_EMBED_TOKEN,
     });
 
+    console.log("[app] hiding status card and showing embed container");
     ui.statusCard.style.display = "none";
     ui.sb.style.display = "block";
+
+    console.log("[app] rendering embed to #sbAppContainer");
     embed.render("#sbAppContainer");
 
-    console.log("[app] embed rendered successfully");
+    console.log("[app] Superblocks embed loaded successfully!");
   } catch (e) {
-    console.error("[app] error rendering embed:", e);
+    console.error("[app] error loading Superblocks embed:", e);
     ui.statusText.textContent = "Failed to load application";
-    showErr(`Embed render error: ${e.message || e}`);
+    showErr(`Application load error: ${e.message || e}`);
 
-    // Show the status card again so user can try logout/login
+    // Keep the status card visible so user can try logout/login
     ui.statusCard.style.display = "block";
+    ui.sb.style.display = "none";
   }
 })().catch((e) => {
   console.error("[app] fatal error:", e);
+
   const statusText = document.getElementById("statusText");
   const loginBtn = document.getElementById("loginBtn");
   const errorBox = document.getElementById("errorBox");
