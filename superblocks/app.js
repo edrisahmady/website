@@ -45,7 +45,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
       domain: DOMAIN,
       clientId: CLIENTID,
       authorizationParams: {
-        redirect_uri: window.location.href.split("?")[0], // Current page without query params
+        redirect_uri: window.location.origin + window.location.pathname,
         scope: "openid profile email",
       },
       cacheLocation: "localstorage",
@@ -69,7 +69,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
       console.log("[app] redirect callback successful:", result);
 
       // Clean up the URL - remove the query parameters
-      const cleanUrl = window.location.href.split("?")[0];
+      const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
       console.log("[app] URL cleaned, proceeding to load app");
     } catch (e) {
@@ -110,7 +110,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
   ui.logoutBtn.style.display = "inline-block";
   ui.logoutBtn.onclick = () => {
     console.log("[app] logging out");
-    const logoutUrl = window.location.href.split("?")[0];
+    const logoutUrl = window.location.origin + window.location.pathname;
     a0.logout({
       logoutParams: {
         returnTo: logoutUrl,
