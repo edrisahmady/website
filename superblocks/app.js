@@ -8,7 +8,8 @@ console.log("[app] script loaded"); // You MUST see this after refresh
     "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4";
 
   // Replace this with your actual Superblocks embed token
-  const SUPERBLOCKS_EMBED_TOKEN = "your_embed_token_here"; // Get this from your Superblocks app settings
+  const SUPERBLOCKS_EMBED_TOKEN =
+    "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM"; // Get this from your Superblocks app settings
 
   // ---- UI handles ----
   const ui = {
