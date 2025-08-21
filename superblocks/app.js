@@ -9,7 +9,8 @@ console.log("[app] script loaded"); // You MUST see this after refresh
   const EMBED_TOKEN = "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM";
 
   // Replace this with your actual Superblocks embed token
-  const SUPERBLOCKS_EMBED_TOKEN = "your_embed_token_here"; // Get this from your Superblocks app settings
+  const SUPERBLOCKS_EMBED_TOKEN =
+    "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM"; // Get this from your Superblocks app settings
 
   // ---- UI handles ----
   const ui = {
