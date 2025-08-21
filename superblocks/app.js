@@ -45,7 +45,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
       domain: DOMAIN,
       clientId: CLIENTID,
       authorizationParams: {
-        redirect_uri: window.location.origin + window.location.pathname,
+        redirect_uri: "https://edrisahmady.com/superblocks",
         scope: "openid profile email",
       },
       cacheLocation: "localstorage",
