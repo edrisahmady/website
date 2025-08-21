@@ -7,8 +7,11 @@
     <!-- Superblocks embed -->
     <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
 
-    <!-- Auth0 SPA SDK v2 (UMD = exposes window.auth0) -->
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+    <!-- Auth0 SPA SDK (UMD) via jsDelivr; exposes window.auth0 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.3.0/dist/auth0-spa-js.production.js"
+      crossorigin="anonymous"
+    ></script>
 
     <style>
       html,
