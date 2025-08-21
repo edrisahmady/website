@@ -1,48 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
+    <meta charset="utf-8" />
     <title>Superblocks App</title>
+
+    <!-- Superblocks embed (browser) -->
+    <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
+
+    <!-- Auth0 SPA SDK (browser) -->
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+
     <style>
-      /* Ensure the body and html take up the full viewport */
       html,
       body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       }
-
-      /* Style for the Superblocks embed to occupy the full window */
+      #app {
+        display: grid;
+        place-items: center;
+        height: 100%;
+      }
       #sbAppContainer {
         width: 100%;
         height: 100%;
       }
+      .card {
+        padding: 1rem 1.25rem;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        max-width: 560px;
+        background: #fff;
+      }
+      button {
+        cursor: pointer;
+        border: 1px solid #333;
+        background: #fff;
+        padding: 0.5rem 0.9rem;
+        border-radius: 8px;
+      }
+      pre {
+        white-space: pre-wrap;
+      }
     </style>
   </head>
-  <body>
-    <div id="sbAppContainer"></div>
-    <!-- Container for the Superblocks app -->
-    <script>
-      const sbApp = Superblocks.createSuperblocksEmbed({
-        src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
-        // Uncomment and add properties if needed
-        // properties: { EmbedProp1: "Hello World" }
-      });
-      // Append the embed to the container div
-      document.getElementById("sbAppContainer").appendChild(sbApp);
-    </script>
-<script>
-  // Call your local backend from the live site
-  fetch('http://localhost:3001/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ test: true })
-  })
-    .then(r => r.json())
-    .then(data => console.log('Token response:', data))
-    .catch(err => console.error('Request failed:', err));
-</script>
 
+  <body>
+    <div id="app">
+      <div id="sbAppContainer" style="display: none"></div>
+
+      <!-- Simple status UI while we authenticate -->
+      <div id="status" class="card">
+        <div id="statusText">Checking authentication…</div>
+        <div style="margin-top: 12px">
+          <button id="loginBtn" style="display: none">Log in</button>
+          <button id="logoutBtn" style="display: none">Log out</button>
+        </div>
+        <pre
+          id="errorBox"
+          style="display: none; margin-top: 12px; color: #b00020"
+        ></pre>
+      </div>
+    </div>
+
+    <script>
+      (async () => {
+        // === 1) Configure Auth0 (REQUIRED: replace these) ===
+        const AUTH0_DOMAIN = "dev-ajpiv5ho3pze4hxh.us.auth0.com"; // e.g. dev-abc123.us.auth0.com
+        const AUTH0_CLIENTID = "WEWimGffakZxFFcDVXuiqtCGAKl85zrO"; // from your Auth0 app
+
+        const auth0 = await createAuth0Client({
+          domain: AUTH0_DOMAIN,
+          clientId: AUTH0_CLIENTID,
+          authorizationParams: {
+            redirect_uri: window.location.origin,
+            // scope: "openid profile email", // (default includes openid)
+            // audience: "...",               // not needed for ID token claims
+          },
+        });
+
+        // === 2) Handle the Auth0 redirect callback (after login) ===
+        if (
+          window.location.search.includes("code=") &&
+          window.location.search.includes("state=")
+        ) {
+          await auth0.handleRedirectCallback();
+          // Clean up the query string so refreshes work
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
+        }
+
+        const statusEl = document.getElementById("status");
+        const statusText = document.getElementById("statusText");
+        const loginBtn = document.getElementById("loginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const errorBox = document.getElementById("errorBox");
+        const sbContainer = document.getElementById("sbAppContainer");
+
+        function showError(err) {
+          errorBox.style.display = "block";
+          errorBox.textContent =
+            (err && (err.message || String(err))) || "Unknown error";
+        }
+
+        // === 3) Ensure the user is authenticated ===
+        const isAuthenticated = await auth0.isAuthenticated();
+        if (!isAuthenticated) {
+          statusText.textContent = "You need to log in to view the embed.";
+          loginBtn.style.display = "inline-block";
+          loginBtn.onclick = () => auth0.loginWithRedirect();
+          return;
+        }
+
+        // Allow logout
+        logoutBtn.style.display = "inline-block";
+        logoutBtn.onclick = () =>
+          auth0.logout({ logoutParams: { returnTo: window.location.origin } });
+
+        // === 4) Get the ID token claims and extract the superblocks token ===
+        // Your Auth0 Action (from the Superblocks guide) should have added `superblocks_token`
+        // to the ID token. Depending on how the Action was written, it may be:
+        //   - claims["superblocks_token"]
+        //   - OR a namespaced claim like claims["https://superblocks.example/superblocks_token"]
+        const claims = await auth0.getIdTokenClaims();
+
+        // Try common keys; update the second one to match your Action if needed.
+        const sbToken =
+          claims?.["superblocks_token"] ||
+          claims?.["https://superblocks.example/superblocks_token"];
+
+        if (!sbToken) {
+          statusText.textContent =
+            "User authenticated, but no superblocks_token found in ID token.";
+          showError(
+            "Missing superblocks_token claim. Verify your Auth0 Action added it to the ID token."
+          );
+          return;
+        }
+
+        // === 5) Create and show the Superblocks embed with the token ===
+        // Replace APP_ID below with your embed application ID
+        const embedEl = Superblocks.createSuperblocksEmbed({
+          src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
+          token: sbToken,
+          // properties: { EmbedProp1: "Hello World" } // optional
+        });
+
+        // Hide status UI, show embed container
+        status.style.display = "none";
+        sbContainer.style.display = "block";
+        sbContainer.appendChild(embedEl);
+      })().catch((e) => {
+        // Global error fallback
+        document.getElementById("statusText").textContent = "Auth error";
+        document.getElementById("loginBtn").style.display = "inline-block";
+        document.getElementById("errorBox").style.display = "block";
+        document.getElementById("errorBox").textContent =
+          e?.message || String(e);
+        console.error(e);
+      });
+    </script>
   </body>
 </html>
