@@ -12,7 +12,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
   const SUPERBLOCKS_EMBED_TOKEN =
     "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM"; // Get this from your Superblocks app settings
 
-  // ---- UI handles ----
+  // ---- UI handles ----dcdccdcdcdcdcdcd
   const ui = {
     statusCard: document.getElementById("statusCard"),
     statusText: document.getElementById("statusText"),
