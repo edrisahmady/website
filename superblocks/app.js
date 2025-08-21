@@ -8,8 +8,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
     "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4";
 
   // Replace this with your actual Superblocks embed token
-  const SUPERBLOCKS_EMBED_TOKEN =
-    "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM"; // Get this from your Superblocks app settings
+  const SUPERBLOCKS_EMBED_TOKEN = "your_embed_token_here"; // Get this from your Superblocks app settings
 
   // ---- UI handles ----
   const ui = {
@@ -69,7 +68,7 @@ console.log("[app] script loaded"); // You MUST see this after refresh
       console.log("[app] redirect callback successful:", result);
 
       // Clean up the URL - remove the query parameters
-      const cleanUrl = window.location.origin + window.location.pathname;
+      const cleanUrl = "https://edrisahmady.com/superblocks";
       window.history.replaceState({}, document.title, cleanUrl);
       console.log("[app] URL cleaned, proceeding to load app");
     } catch (e) {
