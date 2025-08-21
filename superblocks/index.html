@@ -32,5 +32,17 @@
       // Append the embed to the container div
       document.getElementById("sbAppContainer").appendChild(sbApp);
     </script>
+<script>
+  // Call your local backend from the live site
+  fetch('http://localhost:3001/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ test: true })
+  })
+    .then(r => r.json())
+    .then(data => console.log('Token response:', data))
+    .catch(err => console.error('Request failed:', err));
+</script>
+
   </body>
 </html>
