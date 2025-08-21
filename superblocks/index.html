@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <title>Superblocks App</title>
 
-    <!-- Superblocks embed (browser) -->
+    <!-- Superblocks embed -->
     <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
 
-    <!-- Auth0 SPA SDK (browser) -->
+    <!-- Auth0 SPA SDK v2 UMD build (exports `window.auth0`) -->
     <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 
     <style>
@@ -19,20 +19,21 @@
         height: 100%;
         font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       }
-      #app {
-        display: grid;
-        place-items: center;
-        height: 100%;
-      }
       #sbAppContainer {
         width: 100%;
         height: 100%;
+        display: none;
       }
       .card {
-        padding: 1rem 1.25rem;
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 360px;
+        max-width: 90vw;
+        height: max-content;
         border: 1px solid #ddd;
         border-radius: 12px;
-        max-width: 560px;
+        padding: 16px;
         background: #fff;
       }
       button {
@@ -44,51 +45,52 @@
       }
       pre {
         white-space: pre-wrap;
+        color: #b00020;
       }
     </style>
   </head>
 
   <body>
-    <div id="app">
-      <div id="sbAppContainer" style="display: none"></div>
+    <div id="sbAppContainer"></div>
 
-      <!-- Simple status UI while we authenticate -->
-      <div id="status" class="card">
-        <div id="statusText">Checking authentication…</div>
-        <div style="margin-top: 12px">
-          <button id="loginBtn" style="display: none">Log in</button>
-          <button id="logoutBtn" style="display: none">Log out</button>
-        </div>
-        <pre
-          id="errorBox"
-          style="display: none; margin-top: 12px; color: #b00020"
-        ></pre>
+    <!-- Simple status card while we auth -->
+    <div id="statusCard" class="card">
+      <div id="statusText">Checking authentication…</div>
+      <div style="margin-top: 12px">
+        <button id="loginBtn" style="display: none">Log in</button>
+        <button id="logoutBtn" style="display: none">Log out</button>
       </div>
+      <pre id="errorBox" style="display: none"></pre>
     </div>
 
     <script>
       (async () => {
-        // === 1) Configure Auth0 (REQUIRED: replace these) ===
-        const AUTH0_DOMAIN = "dev-ajpiv5ho3pze4hxh.us.auth0.com"; // e.g. dev-abc123.us.auth0.com
-        const AUTH0_CLIENTID = "WEWimGffakZxFFcDVXuiqtCGAKl85zrO"; // from your Auth0 app
+        // ---- 0) Guard: make sure the SDK loaded
+        if (!window.auth0 || !window.auth0.createAuth0Client) {
+          throw new Error(
+            "Auth0 SPA SDK failed to load (window.auth0.createAuth0Client missing)."
+          );
+        }
 
-        const auth0 = await createAuth0Client({
-          domain: AUTH0_DOMAIN,
-          clientId: AUTH0_CLIENTID,
+        // ---- 1) Configure Auth0 (REPLACE THESE)
+        const DOMAIN = "dev-ajpiv5ho3pze4hxh.us.auth0.com"; // e.g. dev-abc123.us.auth0.com
+        const CLIENTID = "WEWimGffakZxFFcDVXuiqtCGAKl85zrO"; // from Auth0 App > Settings
+        const CLAIM_KEY = "https://edrisahmady.com/superblocks/token"; // from your Action
+
+        const auth0Client = await auth0.createAuth0Client({
+          domain: DOMAIN,
+          clientId: CLIENTID,
           authorizationParams: {
             redirect_uri: window.location.origin,
-            // scope: "openid profile email", // (default includes openid)
-            // audience: "...",               // not needed for ID token claims
           },
         });
 
-        // === 2) Handle the Auth0 redirect callback (after login) ===
+        // ---- 2) Handle redirect callback after login
         if (
           window.location.search.includes("code=") &&
           window.location.search.includes("state=")
         ) {
-          await auth0.handleRedirectCallback();
-          // Clean up the query string so refreshes work
+          await auth0Client.handleRedirectCallback();
           window.history.replaceState(
             {},
             document.title,
@@ -96,73 +98,65 @@
           );
         }
 
-        const statusEl = document.getElementById("status");
+        const statusCard = document.getElementById("statusCard");
         const statusText = document.getElementById("statusText");
         const loginBtn = document.getElementById("loginBtn");
         const logoutBtn = document.getElementById("logoutBtn");
         const errorBox = document.getElementById("errorBox");
         const sbContainer = document.getElementById("sbAppContainer");
 
-        function showError(err) {
+        const showError = (msg) => {
           errorBox.style.display = "block";
-          errorBox.textContent =
-            (err && (err.message || String(err))) || "Unknown error";
-        }
+          errorBox.textContent = String(msg);
+        };
 
-        // === 3) Ensure the user is authenticated ===
-        const isAuthenticated = await auth0.isAuthenticated();
-        if (!isAuthenticated) {
+        // ---- 3) Require authentication
+        const isAuthed = await auth0Client.isAuthenticated();
+        if (!isAuthed) {
           statusText.textContent = "You need to log in to view the embed.";
           loginBtn.style.display = "inline-block";
-          loginBtn.onclick = () => auth0.loginWithRedirect();
+          loginBtn.onclick = () => auth0Client.loginWithRedirect();
           return;
         }
 
         // Allow logout
         logoutBtn.style.display = "inline-block";
         logoutBtn.onclick = () =>
-          auth0.logout({ logoutParams: { returnTo: window.location.origin } });
+          auth0Client.logout({
+            logoutParams: { returnTo: window.location.origin },
+          });
 
-        // === 4) Get the ID token claims and extract the superblocks token ===
-        // Your Auth0 Action (from the Superblocks guide) should have added `superblocks_token`
-        // to the ID token. Depending on how the Action was written, it may be:
-        //   - claims["superblocks_token"]
-        //   - OR a namespaced claim like claims["https://superblocks.example/superblocks_token"]
-        const claims = await auth0.getIdTokenClaims();
-
-        // Try common keys; update the second one to match your Action if needed.
-        const sbToken =
-          claims?.["superblocks_token"] ||
-          claims?.["https://superblocks.example/superblocks_token"];
+        // ---- 4) Read the Superblocks session token from the ID token (namespaced claim)
+        const claims = await auth0Client.getIdTokenClaims();
+        const sbToken = claims && claims[CLAIM_KEY];
 
         if (!sbToken) {
           statusText.textContent =
-            "User authenticated, but no superblocks_token found in ID token.";
+            "Authenticated, but missing superblocks token claim.";
           showError(
-            "Missing superblocks_token claim. Verify your Auth0 Action added it to the ID token."
+            `Claim ${CLAIM_KEY} not found. Check your Auth0 Action and that it's in the ID token.`
           );
           return;
         }
 
-        // === 5) Create and show the Superblocks embed with the token ===
-        // Replace APP_ID below with your embed application ID
+        // ---- 5) Render the Superblocks embed with the token
         const embedEl = Superblocks.createSuperblocksEmbed({
           src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
           token: sbToken,
-          // properties: { EmbedProp1: "Hello World" } // optional
         });
 
-        // Hide status UI, show embed container
-        status.style.display = "none";
+        statusCard.style.display = "none";
         sbContainer.style.display = "block";
         sbContainer.appendChild(embedEl);
       })().catch((e) => {
         // Global error fallback
-        document.getElementById("statusText").textContent = "Auth error";
-        document.getElementById("loginBtn").style.display = "inline-block";
-        document.getElementById("errorBox").style.display = "block";
-        document.getElementById("errorBox").textContent =
-          e?.message || String(e);
+        const statusText = document.getElementById("statusText");
+        const loginBtn = document.getElementById("loginBtn");
+        const errorBox = document.getElementById("errorBox");
+        statusText.textContent = "Auth error";
+        loginBtn.style.display = "inline-block";
+        errorBox.style.display = "block";
+        errorBox.textContent = e?.message || String(e);
         console.error(e);
       });
     </script>
