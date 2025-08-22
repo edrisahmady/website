@@ -302,10 +302,13 @@
 
           console.log("Creating Superblocks app...");
 
-          // Create the Superblocks embed
+          // Create the Superblocks embed with proper authentication
           const sbApp = Superblocks.createSuperblocksEmbed({
             src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
-            authToken: superblocksToken,
+            // Use the token for authentication as per Superblocks docs
+            token: superblocksToken,
+            // Alternative: you might need to use authToken instead
+            // authToken: superblocksToken,
           });
 
           // Replace the loading content with the Superblocks app
