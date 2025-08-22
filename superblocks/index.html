@@ -3,235 +3,234 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Superblocks Embed - edrisahmady.com</title>
+    <title>Auth0 Test - Superblocks</title>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        border-bottom: 1px solid #eee;
-      }
-      .login-container {
-        text-align: center;
-        padding: 50px;
-      }
-      .button {
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      .primary {
-        background-color: #007bff;
-        color: white;
-      }
-      .danger {
-        background-color: #dc3545;
-        color: white;
-        padding: 5px 10px;
-        font-size: 14px;
-      }
-      .loading {
-        text-align: center;
         padding: 20px;
+      }
+      .info {
+        background: #e3f2fd;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
       }
       .error {
-        color: red;
-        padding: 20px;
+        background: #ffebee;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        color: #c62828;
       }
-      .debug {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
+      .success {
+        background: #e8f5e8;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        color: #2e7d32;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+      pre {
+        background: #f5f5f5;
         padding: 10px;
-        margin: 10px;
-        font-family: monospace;
-        font-size: 12px;
-      }
-      .embed-container {
-        padding: 20px;
+        overflow-x: auto;
       }
     </style>
   </head>
   <body>
-    <div id="app">
-      <div class="loading">Loading...</div>
+    <h1>Auth0 Configuration Test</h1>
+
+    <div class="info">
+      <h3>Current Configuration:</h3>
+      <p><strong>Domain:</strong> dev-ajpiv5ho3pze4hxh.us.auth0.com</p>
+      <p><strong>Client ID:</strong> uMxwqgmOfAgt60Dqym3hMM331iAgh2A2</p>
+      <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
+      <p>
+        <strong>Expected Redirect URI:</strong> <span id="redirectUri"></span>
+      </p>
     </div>
 
-    <!-- Debug Information -->
-    <div class="debug">
-      <h4>Debug Information:</h4>
-      <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
-      <p><strong>Origin:</strong> <span id="origin"></span></p>
-      <p><strong>Full Path:</strong> <span id="fullPath"></span></p>
-      <p><strong>Redirect URI:</strong> <span id="redirectUri"></span></p>
+    <div id="status"></div>
+
+    <div id="controls">
+      <button onclick="testLogin()">Test Auth0 Login</button>
+      <button onclick="checkAuth()">Check Authentication Status</button>
+      <button onclick="clearStorage()">Clear Storage & Reload</button>
+    </div>
+
+    <div id="logs">
+      <h3>Debug Logs:</h3>
+      <pre id="logOutput"></pre>
     </div>
 
     <script>
-      // Display debug info
       const currentUrl = window.location.href;
-      const origin = window.location.origin;
-      const fullPath = window.location.pathname;
-      // Ensure trailing slash for consistency
-      const redirectUri = currentUrl.endsWith("/")
-        ? currentUrl
-        : currentUrl + "/";
+      const redirectUri = currentUrl;
 
       document.getElementById("currentUrl").textContent = currentUrl;
-      document.getElementById("origin").textContent = origin;
-      document.getElementById("fullPath").textContent = fullPath;
       document.getElementById("redirectUri").textContent = redirectUri;
 
-      // Environment configuration
       const config = {
-        auth0Domain: "dev-ajpiv5ho3pze4hxh.us.auth0.com",
-        auth0ClientId: "uMxwqgmOfAgt60Dqym3hMM331iAgh2A2",
-        auth0Audience: "onboard-app",
-        apiUrl: "http://localhost:3001", // Your server URL
-        redirectUri: redirectUri, // Use current full URL
+        domain: "dev-ajpiv5ho3pze4hxh.us.auth0.com",
+        clientId: "uMxwqgmOfAgt60Dqym3hMM331iAgh2A2",
+        audience: "onboard-app",
+        redirectUri: redirectUri,
       };
 
-      console.log("Config:", config);
-      console.log("Current URL:", currentUrl);
-      console.log("Redirect URI:", redirectUri);
-
       let auth0Client;
-      let superblocksToken = null;
+      let logs = [];
+
+      function addLog(message, type = "info") {
+        const timestamp = new Date().toLocaleTimeString();
+        logs.push(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
+        document.getElementById("logOutput").textContent = logs.join("\n");
+        console.log(`[Auth0 Test] ${message}`);
+      }
 
       async function initAuth0() {
         try {
-          console.log("Initializing Auth0...");
+          addLog("Initializing Auth0 client...");
 
           auth0Client = await auth0.createAuth0Client({
-            domain: config.auth0Domain,
-            clientId: config.auth0ClientId,
+            domain: config.domain,
+            clientId: config.clientId,
             authorizationParams: {
-              audience: config.auth0Audience,
-              redirect_uri: config.redirectUri, // Use full URL including /superblocks
+              audience: config.audience,
+              redirect_uri: config.redirectUri,
             },
             cacheLocation: "localstorage",
           });
 
-          console.log("Auth0 client created successfully");
+          addLog("Auth0 client initialized successfully");
 
-          // Handle redirect callback
+          // Check for callback
           if (
-            location.search.includes("code=") ||
-            location.search.includes("error=")
+            window.location.search.includes("code=") ||
+            window.location.search.includes("error=")
           ) {
-            console.log("Handling redirect callback...");
+            addLog("Detected Auth0 callback, processing...");
             try {
               const result = await auth0Client.handleRedirectCallback();
-              console.log("Redirect callback result:", result);
-              // Clean URL but preserve the trailing slash
-              const cleanPath = window.location.pathname.endsWith("/")
-                ? window.location.pathname
-                : window.location.pathname + "/";
-              window.history.replaceState({}, document.title, cleanPath);
-            } catch (callbackError) {
-              console.error("Callback error:", callbackError);
-              document.getElementById("app").innerHTML = `
-                <div class="error">
-                  Callback error: ${callbackError.message}
-                  <br><br>
-                  <strong>Error details:</strong> ${JSON.stringify(
-                    callbackError,
-                    null,
-                    2
-                  )}
-                  <br><br>
-                  <strong>Current URL:</strong> ${currentUrl}
-                  <br>
-                  <strong>Expected in Auth0:</strong> ${config.redirectUri}
-                </div>
-              `;
-              return;
-            }
-          }
+              addLog(
+                `Callback processed successfully: ${JSON.stringify(result)}`,
+                "success"
+              );
 
-          await updateUI();
+              // Clean URL
+              window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+              );
+
+              // Check auth status
+              await checkAuth();
+            } catch (error) {
+              addLog(`Callback error: ${error.message}`, "error");
+              document.getElementById("status").innerHTML = `
+                            <div class="error">
+                                <h3>Callback Error:</h3>
+                                <p>${error.message}</p>
+                                <p><strong>Full error:</strong></p>
+                                <pre>${JSON.stringify(error, null, 2)}</pre>
+                            </div>
+                        `;
+            }
+          } else {
+            await checkAuth();
+          }
         } catch (error) {
-          console.error("Auth0 initialization error:", error);
-          document.getElementById("app").innerHTML = `
-            <div class="error">
-              Authentication initialization failed: ${error.message}
-              <br><br>
-              <strong>Error details:</strong> ${JSON.stringify(error, null, 2)}
-              <br><br>
-              <strong>Current URL:</strong> ${currentUrl}
-              <br>
-              <strong>Redirect URI:</strong> ${config.redirectUri}
-              <br>
-              <strong>Action needed:</strong> Add "${
-                config.redirectUri
-              }" to Auth0 Allowed Callback URLs
-            </div>
-          `;
+          addLog(`Auth0 initialization failed: ${error.message}`, "error");
+          document.getElementById("status").innerHTML = `
+                    <div class="error">
+                        <h3>Initialization Error:</h3>
+                        <p>${error.message}</p>
+                        <h4>Common causes:</h4>
+                        <ul>
+                            <li>Wrong domain or client ID</li>
+                            <li>Missing redirect URI in Auth0 dashboard</li>
+                            <li>CORS issues</li>
+                        </ul>
+                        <p><strong>Add this URL to Auth0 Allowed Callback URLs:</strong></p>
+                        <code>${config.redirectUri}</code>
+                    </div>
+                `;
         }
       }
 
-      async function updateUI() {
+      async function checkAuth() {
         try {
-          console.log("Updating UI...");
-          const isAuthenticated = await auth0Client.isAuthenticated();
-          console.log("Is authenticated:", isAuthenticated);
-
-          if (!isAuthenticated) {
-            document.getElementById("app").innerHTML = `
-              <div class="login-container">
-                <h2>Please log in to access the application</h2>
-                <p><strong>Current path:</strong> ${fullPath}</p>
-                <p><strong>Redirect URI:</strong> ${config.redirectUri}</p>
-                <button class="button primary" onclick="login()">Log In</button>
-              </div>
-            `;
+          if (!auth0Client) {
+            addLog("Auth0 client not initialized");
             return;
           }
 
-          const user = await auth0Client.getUser();
-          console.log("User:", user);
+          const isAuthenticated = await auth0Client.isAuthenticated();
+          addLog(`Authentication status: ${isAuthenticated}`);
 
-          document.getElementById("app").innerHTML = `
-            <div class="header">
-              <div>Welcome, ${user.name || user.email}!</div>
-              <button class="button danger" onclick="logout()">Log Out</button>
-            </div>
-            <div id="content">
-              <div class="loading">Loading Superblocks...</div>
-            </div>
-          `;
+          if (isAuthenticated) {
+            const user = await auth0Client.getUser();
+            addLog(`User authenticated: ${user.email || user.name}`);
 
-          // Get Superblocks token
-          await getSuperblocks();
+            document.getElementById("status").innerHTML = `
+                        <div class="success">
+                            <h3>✅ Authentication Successful!</h3>
+                            <p><strong>User:</strong> ${
+                              user.name || user.email
+                            }</p>
+                            <p><strong>User ID:</strong> ${user.sub}</p>
+                            <button onclick="testSuperblocksToken()">Test Superblocks Token</button>
+                            <button onclick="logout()">Logout</button>
+                        </div>
+                    `;
+          } else {
+            document.getElementById("status").innerHTML = `
+                        <div class="info">
+                            <h3>Not Authenticated</h3>
+                            <p>Click "Test Auth0 Login" to authenticate</p>
+                        </div>
+                    `;
+          }
         } catch (error) {
-          console.error("Error updating UI:", error);
-          document.getElementById("app").innerHTML = `
-            <div class="error">Error updating UI: ${error.message}</div>
-          `;
+          addLog(`Error checking auth: ${error.message}`, "error");
         }
       }
 
-      async function getSuperblocks() {
+      async function testLogin() {
         try {
-          console.log("Getting Superblocks token...");
+          addLog("Starting login process...");
+          addLog(`Redirect URI: ${config.redirectUri}`);
+
+          await auth0Client.loginWithRedirect({
+            authorizationParams: {
+              redirect_uri: config.redirectUri,
+            },
+          });
+        } catch (error) {
+          addLog(`Login error: ${error.message}`, "error");
+        }
+      }
+
+      async function testSuperblocksToken() {
+        try {
+          addLog("Getting Auth0 token...");
 
           const token = await auth0Client.getTokenSilently({
             authorizationParams: {
-              audience: config.auth0Audience,
+              audience: config.audience,
             },
           });
 
-          console.log("Got Auth0 token:", token.substring(0, 20) + "...");
+          addLog(`Got Auth0 token: ${token.substring(0, 50)}...`);
 
+          addLog("Calling Superblocks API...");
           const response = await fetch(
-            `${config.apiUrl}/api/superblocks/token`,
+            "http://localhost:3001/api/superblocks/token",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -240,97 +239,48 @@
             }
           );
 
-          console.log("Superblocks API response status:", response.status);
+          addLog(`Superblocks API status: ${response.status}`);
 
-          if (!response.ok) {
-            const errorData = await response.text();
-            throw new Error(
-              `HTTP error! status: ${response.status}, message: ${errorData}`
+          if (response.ok) {
+            const data = await response.json();
+            addLog(
+              `Superblocks token received: ${data.access_token.substring(
+                0,
+                50
+              )}...`,
+              "success"
             );
-          }
 
-          const data = await response.json();
-          superblocksToken = data;
-
-          console.log("Superblocks token received:", data);
-
-          loadSuperblocksEmbed(data.access_token);
-        } catch (error) {
-          console.error("Error getting Superblocks token:", error);
-          document.getElementById("content").innerHTML = `
-            <div class="error">
-              Error loading application: ${error.message}
-              <br><button onclick="getSuperblocks()">Retry</button>
-            </div>
-          `;
-        }
-      }
-
-      function login() {
-        console.log("Starting login...");
-        console.log("Redirect URI will be:", config.redirectUri);
-
-        auth0Client.loginWithRedirect({
-          authorizationParams: {
-            redirect_uri: config.redirectUri,
-          },
-        });
-      }
-
-      function logout() {
-        auth0Client.logout({
-          returnTo: config.redirectUri,
-        });
-      }
-
-      function loadSuperblocksEmbed(token) {
-        // Clear content
-        document.getElementById("content").innerHTML = `
-          <div class="embed-container">
-            <h3>Superblocks Application</h3>
-            <div id="superblocks-container"></div>
-          </div>
-        `;
-
-        // Check if Superblocks script is already loaded
-        if (!window.Superblocks) {
-          const script = document.createElement("script");
-          script.src =
-            "https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js";
-          script.onload = () => createSuperblocksApp(token);
-          script.onerror = () => {
-            document.getElementById("content").innerHTML = `
-              <div class="error">Failed to load Superblocks embed script</div>
-            `;
-          };
-          document.head.appendChild(script);
-        } else {
-          createSuperblocksApp(token);
-        }
-      }
-
-      function createSuperblocksApp(token) {
-        try {
-          console.log("Creating Superblocks app with token:", token);
-
-          const sbApp = Superblocks.createSuperblocksEmbed({
-            src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
-            authToken: token,
-          });
-
-          const container = document.getElementById("superblocks-container");
-          if (container) {
-            container.appendChild(sbApp);
-            console.log("Superblocks app successfully embedded");
+            document.getElementById("status").innerHTML += `
+                        <div class="success">
+                            <h4>✅ Superblocks Token Success!</h4>
+                            <p>Ready to embed Superblocks app</p>
+                        </div>
+                    `;
           } else {
-            console.error("Superblocks container not found");
+            const errorText = await response.text();
+            addLog(`Superblocks API error: ${errorText}`, "error");
           }
         } catch (error) {
-          console.error("Error creating Superblocks app:", error);
-          document.getElementById("content").innerHTML = `
-            <div class="error">Error loading Superblocks application: ${error.message}</div>
-          `;
+          addLog(`Superblocks token error: ${error.message}`, "error");
         }
+      }
+
+      async function logout() {
+        try {
+          await auth0Client.logout({
+            returnTo: config.redirectUri,
+          });
+        } catch (error) {
+          addLog(`Logout error: ${error.message}`, "error");
+        }
+      }
+
+      function clearStorage() {
+        localStorage.clear();
+        sessionStorage.clear();
+        addLog("Storage cleared, reloading...");
+        window.location.reload();
       }
 
       // Initialize when page loads
