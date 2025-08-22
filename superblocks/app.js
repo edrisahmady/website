@@ -1,189 +1,239 @@
-console.log("[app] script loaded"); // You MUST see this after refresh
+// Auth0 configuration
+const auth0Config = {
+  domain: "dev-ajpiv5ho3pze4hxh.us.auth0.com", // Replace with your Auth0 domain (e.g., 'yourapp.us.auth0.com')
+  clientId: "WEWimGffakZxFFcDVXuiqtCGAKl85zrO", // Replace with your Auth0 client ID
+  redirectUri: window.location.origin + "/superblocks/", // or just window.location.origin
+  audience: "YOUR_API_IDENTIFIER", // Replace with your Auth0 API identifier (optional)
+};
 
-(async () => {
-  // ---- CONFIG (replace these) ----
-  const DOMAIN = "dev-ajpiv5ho3pze4hxh.us.auth0.com";
-  const CLIENTID = "WEWimGffakZxFFcDVXuiqtCGAKl85zrO";
-  const EMBED_SRC =
-    "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4";
-  const EMBED_TOKEN = "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM";
+// Initialize Auth0
+let auth0Client;
 
-  // Replace this with your actual Superblocks embed token
-  const SUPERBLOCKS_EMBED_TOKEN =
-    "CEBO3sB9d3b95X7Z1nCrfyFefBL8QwcPEbVQcIKyyErzonCM"; // Get this from your Superblocks app settings
+// Initialize Auth0 client
+async function initAuth0() {
+  auth0Client = await auth0.createAuth0Client({
+    domain: auth0Config.domain,
+    clientId: auth0Config.clientId,
+    authorizationParams: {
+      redirect_uri: auth0Config.redirectUri,
+      audience: auth0Config.audience, // Optional - only if you have an API configured
+    },
+  });
 
-  // ---- UI handles ----dcdccdcdcdcdcdcd
-  const ui = {
-    statusCard: document.getElementById("statusCard"),
-    statusText: document.getElementById("statusText"),
-    loginBtn: document.getElementById("loginBtn"),
-    logoutBtn: document.getElementById("logoutBtn"),
-    errorBox: document.getElementById("errorBox"),
-    sb: document.getElementById("sbAppContainer"),
-  };
-
-  const showErr = (msg) => {
-    console.error("[app] error:", msg);
-    ui.errorBox.style.display = "block";
-    ui.errorBox.textContent = String(msg);
-  };
-
-  // ---- Ensure Auth0 SDK is present ----
-  if (!window.auth0 || !window.auth0.createAuth0Client) {
-    ui.statusText.textContent = "Auth0 SDK failed to load.";
-    showErr(
-      "window.auth0.createAuth0Client missing. Check Network tab for the SDK URL (should be 200)."
-    );
-    return;
-  }
-
-  console.log("[app] Creating Auth0 client…");
-  ui.statusText.textContent = "Initializing authentication…";
-
-  let a0;
-  try {
-    a0 = await window.auth0.createAuth0Client({
-      domain: DOMAIN,
-      clientId: CLIENTID,
-      authorizationParams: {
-        redirect_uri: "https://edrisahmady.com/superblocks",
-        scope: "openid profile email",
-      },
-      cacheLocation: "localstorage",
-    });
-    console.log("[app] Auth0 client created successfully");
-  } catch (e) {
-    console.error("[app] Failed to create Auth0 client:", e);
-    ui.statusText.textContent = "Failed to initialize authentication";
-    showErr(e.message || e);
-    return;
-  }
-
-  // ---- Handle redirect callback after login ----
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has("code") && urlParams.has("state")) {
-    console.log("[app] handling redirect callback…");
-    ui.statusText.textContent = "Completing authentication…";
-
+  // Check if user is returning from Auth0 redirect
+  if (
+    window.location.search.includes("code=") &&
+    window.location.search.includes("state=")
+  ) {
     try {
-      const result = await a0.handleRedirectCallback();
-      console.log("[app] redirect callback successful:", result);
+      await auth0Client.handleRedirectCallback();
+      // Clean up the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (error) {
+      console.error("Error handling Auth0 callback:", error);
+    }
+  }
+}
 
-      // Clean up the URL - remove the query parameters
-      const cleanUrl = "https://edrisahmady.com/superblocks";
-      window.history.replaceState({}, document.title, cleanUrl);
-      console.log("[app] URL cleaned, proceeding to load app");
-    } catch (e) {
-      console.error("[app] redirect callback error:", e);
-      ui.statusText.textContent = "Authentication failed";
-      showErr(`Authentication error: ${e.message || e}`);
+// Check if user is authenticated
+async function isAuthenticated() {
+  return await auth0Client.isAuthenticated();
+}
+
+// Get access token for API calls
+async function getAccessToken() {
+  try {
+    const token = await auth0Client.getTokenSilently();
+    return token;
+  } catch (error) {
+    console.error("Error getting access token:", error);
+    throw error;
+  }
+}
+
+// Login function
+async function login() {
+  await auth0Client.loginWithRedirect();
+}
+
+// Logout function
+async function logout() {
+  await auth0Client.logout({
+    logoutParams: {
+      returnTo: window.location.origin,
+    },
+  });
+}
+
+// Function to get Superblocks authentication token
+async function getSBToken() {
+  try {
+    // Get Auth0 access token
+    const accessToken = await getAccessToken();
+
+    // Update this URL based on where your backend is deployed
+    const backendUrl = "http://localhost:3001"; // Change this when you deploy
+
+    const response = await fetch(`${backendUrl}/api/superblocks/token`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.access_token;
+  } catch (error) {
+    console.error("Error getting Superblocks token:", error);
+    throw new Error("Superblocks Auth Error: " + error.message);
+  }
+}
+
+// Function to initialize Superblocks embed
+async function initializeSuperblocks() {
+  try {
+    // Check if user is authenticated
+    const authenticated = await isAuthenticated();
+
+    if (!authenticated) {
+      console.log("User not authenticated, redirecting to login...");
+      await login();
       return;
     }
-  }
 
-  // ---- Check auth state ----
-  console.log("[app] checking authentication status…");
-  let authed;
-  try {
-    authed = await a0.isAuthenticated();
-    console.log("[app] authentication status:", authed);
-  } catch (e) {
-    console.error("[app] error checking auth status:", e);
-    ui.statusText.textContent = "Error checking authentication";
-    showErr(e.message || e);
-    return;
-  }
+    // Show loading indicator
+    showLoading("Loading Superblocks application...");
 
-  if (!authed) {
-    console.log("[app] user not authenticated, showing login");
-    ui.statusText.textContent = "Please log in to access the application.";
-    ui.loginBtn.style.display = "inline-block";
-    ui.loginBtn.onclick = () => {
-      console.log("[app] initiating login");
-      a0.loginWithRedirect();
-    };
-    return;
-  }
+    // Get authentication token
+    const token = await getSBToken();
 
-  console.log("[app] user is authenticated!");
-
-  // Show logout button
-  ui.logoutBtn.style.display = "inline-block";
-  ui.logoutBtn.onclick = () => {
-    console.log("[app] logging out");
-    const logoutUrl = window.location.origin + window.location.pathname;
-    a0.logout({
-      logoutParams: {
-        returnTo: logoutUrl,
-      },
-    });
-  };
-
-  // ---- Get user info (optional - for display purposes) ----
-  try {
-    const user = await a0.getUser();
-    console.log("[app] authenticated user:", user);
-  } catch (e) {
-    console.warn("[app] could not get user info:", e);
-    // This is not critical, continue loading the app
-  }
-
-  // ---- Render the Superblocks embed ----
-  console.log("[app] loading Superblocks application…");
-  ui.statusText.textContent = "Loading application…";
-
-  // Validate embed token
-  if (
-    !SUPERBLOCKS_EMBED_TOKEN ||
-    SUPERBLOCKS_EMBED_TOKEN === "your_embed_token_here"
-  ) {
-    ui.statusText.textContent = "Application not configured";
-    showErr("Please set your SUPERBLOCKS_EMBED_TOKEN in the code");
-    return;
-  }
-
-  try {
-    // Ensure Superblocks SDK is loaded
-    if (!window.Superblocks || !window.Superblocks.createSuperblocksEmbed) {
-      throw new Error(
-        "Superblocks SDK not loaded. Check that the embed script is loading correctly."
-      );
-    }
-
-    console.log("[app] creating Superblocks embed with token");
-    const embed = window.Superblocks.createSuperblocksEmbed({
-      src: EMBED_SRC,
-      token: SUPERBLOCKS_EMBED_TOKEN,
+    // Create Superblocks embed with authentication
+    const sbApp = Superblocks.createSuperblocksEmbed({
+      id: "sb-app",
+      src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
+      token: token,
+      // Uncomment and modify the properties below if needed
+      // properties: { EmbedProp1: "Hello World" }
     });
 
-    console.log("[app] hiding status card and showing embed container");
-    ui.statusCard.style.display = "none";
-    ui.sb.style.display = "block";
+    // Hide loading indicator
+    hideLoading();
 
-    console.log("[app] rendering embed to #sbAppContainer");
-    embed.render("#sbAppContainer");
+    // Append to document body
+    document.body.appendChild(sbApp);
 
-    console.log("[app] Superblocks embed loaded successfully!");
-  } catch (e) {
-    console.error("[app] error loading Superblocks embed:", e);
-    ui.statusText.textContent = "Failed to load application";
-    showErr(`Application load error: ${e.message || e}`);
+    console.log("Superblocks embed initialized successfully");
+  } catch (error) {
+    console.error("Failed to initialize Superblocks embed:", error);
+    hideLoading();
 
-    // Keep the status card visible so user can try logout/login
-    ui.statusCard.style.display = "block";
-    ui.sb.style.display = "none";
+    // Show error message with retry option
+    showError("Failed to load application. Please try again.", () => {
+      window.location.reload();
+    });
   }
-})().catch((e) => {
-  console.error("[app] fatal error:", e);
+}
 
-  const statusText = document.getElementById("statusText");
-  const loginBtn = document.getElementById("loginBtn");
-  const errorBox = document.getElementById("errorBox");
+// Helper functions for UI feedback
+function showLoading(message = "Loading...") {
+  const existing = document.getElementById("loading-message");
+  if (existing) {
+    existing.textContent = message;
+    existing.style.display = "flex";
+    return;
+  }
 
-  if (statusText) statusText.textContent = "Application error";
-  if (loginBtn) loginBtn.style.display = "inline-block";
-  if (errorBox) {
-    errorBox.style.display = "block";
-    errorBox.textContent = `Fatal error: ${e?.message || String(e)}`;
+  const loadingDiv = document.createElement("div");
+  loadingDiv.id = "loading-message";
+  loadingDiv.textContent = message;
+  loadingDiv.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #666;
+    z-index: 9999;
+  `;
+  document.body.appendChild(loadingDiv);
+}
+
+function hideLoading() {
+  const loading = document.getElementById("loading-message");
+  if (loading) {
+    loading.style.display = "none";
+  }
+}
+
+function showError(message, retryCallback) {
+  const errorDiv = document.createElement("div");
+  errorDiv.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #666;
+    z-index: 9999;
+  `;
+
+  errorDiv.innerHTML = `
+    <div style="text-align: center; max-width: 400px;">
+      <p style="color: #d32f2f; margin-bottom: 20px;">${message}</p>
+      <button id="retry-btn" style="
+        background: #1976d2;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+      ">Retry</button>
+      <button id="logout-btn" style="
+        background: #666;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      ">Logout</button>
+    </div>
+  `;
+
+  document.body.appendChild(errorDiv);
+
+  // Add event listeners
+  document.getElementById("retry-btn").addEventListener("click", retryCallback);
+  document.getElementById("logout-btn").addEventListener("click", logout);
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    await initAuth0();
+    await initializeSuperblocks();
+  } catch (error) {
+    console.error("Initialization error:", error);
+    showError("Failed to initialize application.", () => {
+      window.location.reload();
+    });
   }
 });
