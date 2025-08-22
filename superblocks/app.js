@@ -6,7 +6,7 @@ const auth0Config = {
   audience: "YOUR_API_IDENTIFIER", // Replace with your Auth0 API identifier (optional)
 };
 
-// Initialize Auth0
+// Initialize Auth00
 let auth0Client;
 
 // Initialize Auth0 client
