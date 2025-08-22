@@ -55,6 +55,7 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.2s;
+        margin: 5px;
       }
       .primary {
         background-color: #007bff;
@@ -105,6 +106,16 @@
         border-radius: 5px;
         border: 1px solid #f5c6cb;
       }
+      .debug-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 12px;
+        text-align: left;
+      }
       .superblocks-container {
         width: 100%;
         min-height: calc(100vh - 80px);
@@ -129,6 +140,7 @@
         auth0Domain: "dev-ajpiv5ho3pze4hxh.us.auth0.com",
         auth0ClientId: "uMxwqgmOfAgt60Dqym3hMM331iAgh2A2",
         auth0Audience: "onboard-app",
+        // UPDATE THIS WITH YOUR CURRENT NGROK URL
         apiUrl: "https://b69cd4841962-ngrok-free.app",
         redirectUri: window.location.href,
       };
@@ -139,6 +151,7 @@
       async function initAuth0() {
         try {
           console.log("Initializing Auth0...");
+          console.log("API URL:", config.apiUrl);
 
           auth0Client = await auth0.createAuth0Client({
             domain: config.auth0Domain,
@@ -207,6 +220,10 @@
               <div class="loading">
                 <div class="spinner"></div>
                 <p>Loading your application...</p>
+                <div class="debug-info">
+                  Current API URL: ${config.apiUrl}<br>
+                  Testing connection...
+                </div>
               </div>
             </div>
           `;
@@ -225,6 +242,9 @@
             <div class="login-card">
               <h1>Welcome</h1>
               <p>Please log in to access your application</p>
+              <div class="debug-info">
+                API URL: ${config.apiUrl}
+              </div>
               <button class="button primary" onclick="login()">Log In</button>
             </div>
           </div>
@@ -238,11 +258,36 @@
               <div class="error">
                 <h3>${title}</h3>
                 <p>${message}</p>
+                <div class="debug-info">
+                  Current API URL: ${config.apiUrl}<br>
+                  Check if ngrok is running and URL is correct
+                </div>
                 <button class="button primary" onclick="window.location.reload()">Retry</button>
+                <button class="button secondary" onclick="testConnection()">Test API Connection</button>
               </div>
             </div>
           </div>
         `;
+      }
+
+      async function testConnection() {
+        try {
+          console.log("Testing API connection to:", config.apiUrl);
+          const response = await fetch(`${config.apiUrl}/health`);
+
+          if (response.ok) {
+            const data = await response.json();
+            alert(
+              `✅ API Connection Success!\nStatus: ${data.status}\nServer: ${data.auth0Domain}`
+            );
+          } else {
+            alert(`❌ API Connection Failed!\nStatus: ${response.status}`);
+          }
+        } catch (error) {
+          alert(
+            `❌ API Connection Error!\n${error.message}\n\nCheck if:\n1. ngrok is running\n2. Server is running\n3. URL is correct`
+          );
+        }
       }
 
       async function loadSuperblocksApp() {
@@ -254,6 +299,8 @@
               audience: config.auth0Audience,
             },
           });
+
+          console.log("Auth0 token obtained, calling API...");
 
           const response = await fetch(
             `${config.apiUrl}/api/superblocks/token`,
@@ -273,13 +320,23 @@
           const data = await response.json();
           superblocksToken = data.access_token;
 
-          console.log("Superblocks token received, loading embed...");
+          console.log(
+            "Superblocks token received:",
+            superblocksToken ? "Yes" : "No"
+          );
+          console.log(
+            "Token length:",
+            superblocksToken ? superblocksToken.length : "N/A"
+          );
 
           // Load Superblocks embed
           await loadSuperblocksEmbed();
         } catch (error) {
           console.error("Error loading Superblocks app:", error);
-          showError("Failed to load application", error.message);
+          showError(
+            "Failed to load application",
+            `${error.message}\n\nThis usually means:\n1. ngrok URL changed\n2. Server is not running\n3. Network connectivity issue`
+          );
         }
       }
 
@@ -302,14 +359,15 @@
 
           console.log("Creating Superblocks app...");
 
-          // Create the Superblocks embed with proper authentication
-          const sbApp = Superblocks.createSuperblocksEmbed({
+          // Try different token parameter names based on Superblocks documentation
+          const embedConfig = {
             src: "https://app.superblocks.com/embed/applications/6e427632-7ba5-45b4-acfb-d83b48cc71c4",
-            // Use the token for authentication as per Superblocks docs
-            token: superblocksToken,
-            // Alternative: you might need to use authToken instead
-            // authToken: superblocksToken,
-          });
+            token: superblocksToken, // Primary method per docs
+          };
+
+          console.log("Embed config:", embedConfig);
+
+          const sbApp = Superblocks.createSuperblocksEmbed(embedConfig);
 
           // Replace the loading content with the Superblocks app
           const appContainer = document.querySelector(".app-container");
