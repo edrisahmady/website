@@ -273,7 +273,11 @@
       async function testConnection() {
         try {
           console.log("Testing API connection to:", config.apiUrl);
-          const response = await fetch(`${config.apiUrl}/health`);
+          const response = await fetch(`${config.apiUrl}/health`, {
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+            },
+          });
 
           if (response.ok) {
             const data = await response.json();
@@ -308,6 +312,7 @@
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true",
               },
             }
           );
