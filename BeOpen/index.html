@@ -4,35 +4,346 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BeOpen</title>
-    <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <style>
-      html,
       body {
+        font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
+        background-color: #f5f5f5;
       }
-      #sbAppContainer {
-        width: 100%;
-        height: 100%;
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 20px;
+        background: white;
+        border-bottom: 1px solid #e0e0e0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        height: 50px;
       }
-      #sbAppContainer iframe {
+      .logo {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+      }
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 14px;
+      }
+      .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 20px;
+      }
+      .login-card {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
+      .button {
+        padding: 8px 16px;
+        font-size: 14px;
         border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin: 2px;
+      }
+      .primary {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+      .primary:hover {
+        background-color: #0056b3;
+      }
+      .secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+      .secondary:hover {
+        background-color: #545b62;
+      }
+      .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+      }
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        margin: 20px;
+        border-radius: 5px;
+        border: 1px solid #f5c6cb;
+      }
+      .superblocks-container {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: white;
+      }
+      .superblocks-container iframe {
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
+      }
+      .app-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: white;
       }
     </style>
   </head>
   <body>
-    <div id="sbAppContainer"></div>
+    <div id="app">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
+
     <script>
-      const BEOPEN_APPLICATION_ID = "201b5d7d-901c-45fb-9a9f-3c2a40959b74";
-      const sbApp = Superblocks.createSuperblocksEmbed({
-        src:
-          "https://app.superblocks.com/code-mode/embed/applications/" +
-          BEOPEN_APPLICATION_ID,
-      });
-      document.getElementById("sbAppContainer").appendChild(sbApp);
+      const BEOPEN_EMBED_SRC =
+        "https://app.superblocks.com/code-mode/embed/applications/201b5d7d-901c-45fb-9a9f-3c2a40959b74";
+
+      const path =
+        window.location.pathname.replace(/\/+$/, "") || "/";
+      const config = {
+        auth0Domain: "dev-ajpiv5ho3pze4hxh.us.auth0.com",
+        auth0ClientId: "uMxwqgmOfAgt60Dqym3hMM331iAgh2A2",
+        auth0Audience: "onboard-app",
+        apiUrl:
+          "https://73b696917bac.ngrok-free.app" /* update when ngrok URL changes */,
+        redirectUri: window.location.origin + path,
+      };
+
+      let auth0Client;
+      let superblocksToken = null;
+
+      async function initAuth0() {
+        try {
+          auth0Client = await auth0.createAuth0Client({
+            domain: config.auth0Domain,
+            clientId: config.auth0ClientId,
+            authorizationParams: {
+              audience: config.auth0Audience,
+              redirect_uri: config.redirectUri,
+            },
+            cacheLocation: "localstorage",
+          });
+
+          if (
+            window.location.search.includes("code=") ||
+            window.location.search.includes("error=")
+          ) {
+            try {
+              await auth0Client.handleRedirectCallback();
+              window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+              );
+            } catch (error) {
+              console.error("Callback error:", error);
+              showError("Authentication failed", error.message);
+              return;
+            }
+          }
+
+          await updateUI();
+        } catch (error) {
+          console.error("Auth0 initialization error:", error);
+          showError("Authentication system error", error.message);
+        }
+      }
+
+      async function updateUI() {
+        try {
+          const isAuthenticated = await auth0Client.isAuthenticated();
+
+          if (!isAuthenticated) {
+            showLogin();
+            return;
+          }
+
+          const user = await auth0Client.getUser();
+
+          document.getElementById("app").innerHTML = `
+            <div class="header">
+              <div class="logo">BeOpen</div>
+              <div class="user-info">
+                <span>${user.name || user.email}</span>
+                <button class="button secondary" onclick="logout()">Logout</button>
+              </div>
+            </div>
+            <div class="app-container">
+              <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading BeOpen...</p>
+              </div>
+            </div>
+          `;
+
+          await loadSuperblocksApp();
+        } catch (error) {
+          console.error("Error updating UI:", error);
+          showError("Application error", error.message);
+        }
+      }
+
+      function showLogin() {
+        document.getElementById("app").innerHTML = `
+          <div class="login-container">
+            <div class="login-card">
+              <h1>BeOpen</h1>
+              <p>Sign in to open the Superblocks application.</p>
+              <button class="button primary" onclick="login()">Log in</button>
+            </div>
+          </div>
+        `;
+      }
+
+      function showError(title, message) {
+        document.getElementById("app").innerHTML = `
+          <div class="login-container">
+            <div class="login-card">
+              <div class="error">
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <button class="button primary" onclick="window.location.reload()">Retry</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      async function loadSuperblocksApp() {
+        try {
+          const token = await auth0Client.getTokenSilently({
+            authorizationParams: {
+              audience: config.auth0Audience,
+            },
+          });
+
+          const response = await fetch(
+            `${config.apiUrl}/api/superblocks/token`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server error: ${response.status} - ${errorText}`);
+          }
+
+          const data = await response.json();
+          superblocksToken = data.access_token;
+
+          await loadSuperblocksEmbed();
+        } catch (error) {
+          console.error("Error loading Superblocks app:", error);
+          showError("Failed to load application", error.message);
+        }
+      }
+
+      async function loadSuperblocksEmbed() {
+        try {
+          if (!window.Superblocks) {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement("script");
+              script.src =
+                "https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js";
+              script.onload = resolve;
+              script.onerror = () =>
+                reject(new Error("Failed to load Superblocks embed script"));
+              document.head.appendChild(script);
+            });
+          }
+
+          const embedConfig = {
+            src: BEOPEN_EMBED_SRC,
+            token: superblocksToken,
+          };
+
+          const sbApp = Superblocks.createSuperblocksEmbed(embedConfig);
+
+          const appContainer = document.querySelector(".app-container");
+          if (appContainer) {
+            appContainer.innerHTML =
+              '<div class="superblocks-container"></div>';
+            const container = document.querySelector(".superblocks-container");
+            container.appendChild(sbApp);
+          } else {
+            throw new Error("App container not found");
+          }
+        } catch (error) {
+          console.error("Error loading Superblocks embed:", error);
+          showError("Failed to load Superblocks application", error.message);
+        }
+      }
+
+      function login() {
+        auth0Client.loginWithRedirect({
+          authorizationParams: {
+            redirect_uri: config.redirectUri,
+          },
+        });
+      }
+
+      function logout() {
+        auth0Client.logout({
+          returnTo: config.redirectUri,
+        });
+      }
+
+      initAuth0();
     </script>
   </body>
 </html>
