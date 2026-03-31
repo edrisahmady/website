@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BeOpen</title>
+    <script src="https://prod-cdn.superblocks.com/packages/@superblocksteam/embed@latest/embed.bundle.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #sbAppContainer {
+        width: 100%;
+        height: 100%;
+      }
+      #sbAppContainer iframe {
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sbAppContainer"></div>
+    <script>
+      const BEOPEN_APPLICATION_ID = "201b5d7d-901c-45fb-9a9f-3c2a40959b74";
+      const sbApp = Superblocks.createSuperblocksEmbed({
+        src:
+          "https://app.superblocks.com/code-mode/embed/applications/" +
+          BEOPEN_APPLICATION_ID,
+      });
+      document.getElementById("sbAppContainer").appendChild(sbApp);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "include": ["**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2024",
+      "ESNext.Array",
+      "ESNext.Collection",
+      "ESNext.Promise"
+    ],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsxdev",
+    "jsxImportSource": "@superblocksteam/library",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": false,
+    "resolveJsonModule": true,
+    "target": "ES2024",
+    "module": "ESNext",
+    "strict": true,
+    "noImplicitOverride": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}

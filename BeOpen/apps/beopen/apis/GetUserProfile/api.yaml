@@ -1,0 +1,18 @@
+metadata:
+  name: GetUserProfile
+  timestamps:
+    updated: 2026-03-31T14:41:02.500Z
+authorization:
+  type: AUTHORIZATION_TYPE_APP_USERS
+trigger:
+  application: {}
+blocks:
+  - name: fetch_user
+    step:
+      integration: 023c6186-ab1b-4b09-bfb1-c545dab246ad
+      restapiintegration:
+        httpMethod: GET
+        openApiAction: genericHttpRequest
+        urlPath: "`/userinfo`"
+        bodyType: jsonBody
+        responseType: auto

@@ -1,0 +1,12 @@
+{
+  "configType": "ROOT",
+  "metadata": {
+    "cliVersion": "2.0.98"
+  },
+  "resources": {
+    "201b5d7d-901c-45fb-9a9f-3c2a40959b74": {
+      "location": "apps/beopen",
+      "resourceType": "APPLICATION"
+    }
+  }
+}
